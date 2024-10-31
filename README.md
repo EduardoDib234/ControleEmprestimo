@@ -36,6 +36,6 @@ Esse sistema busca simplificar o registro e controle de ferramentas, oferecendo 
 ## **Tecnologias Utilizadas**
 
 - **Linguagem de Programação**: Java
-- **Ambiente**: Netbeans (desktop)
+- **Ambiente**: Netbeans 13 (desktop)
 
 ---
