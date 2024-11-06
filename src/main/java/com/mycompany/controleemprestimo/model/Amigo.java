@@ -10,8 +10,6 @@ package com.mycompany.controleemprestimo.model;
  */
 public class Amigo {
     private String nome;
-    private String endereco;
-    private String numerotelefone;
-    private String cpf;
+    private String telefone;
     private int id;
 }
