@@ -9,8 +9,10 @@ package com.mycompany.controleemprestimo.model;
  * @author Administrator
  */
 public class Ferramentas {
-    private String nome;
     private int id;
+    private String nome;
     private String marca;
     private double custo;
+    private boolean status;
+    
 }

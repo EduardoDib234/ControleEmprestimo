@@ -78,6 +78,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Emprestimo"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBEmprestimoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jBAmigos">
       <Properties>
@@ -91,6 +94,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Ferramentas"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBFerramentasActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

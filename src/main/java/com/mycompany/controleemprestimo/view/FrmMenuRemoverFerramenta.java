@@ -6,14 +6,14 @@ package com.mycompany.controleemprestimo.view;
 
 /**
  *
- * @author Administrator
+ * @author USUARIO
  */
-public class amigoview extends javax.swing.JFrame {
+public class FrmMenuRemoverFerramenta extends javax.swing.JFrame {
 
     /**
-     * Creates new form amigoview
+     * Creates new form FrmMenuRemoverFerramenta
      */
-    public amigoview() {
+    public FrmMenuRemoverFerramenta() {
         initComponents();
     }
 
@@ -59,20 +59,20 @@ public class amigoview extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(amigoview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMenuRemoverFerramenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(amigoview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMenuRemoverFerramenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(amigoview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMenuRemoverFerramenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(amigoview.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmMenuRemoverFerramenta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new amigoview().setVisible(true);
+                new FrmMenuRemoverFerramenta().setVisible(true);
             }
         });
     }

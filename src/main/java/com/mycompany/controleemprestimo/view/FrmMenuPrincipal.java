@@ -36,6 +36,11 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jBEmprestimo.setText("Emprestimo");
+        jBEmprestimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEmprestimoActionPerformed(evt);
+            }
+        });
 
         jBAmigos.setText("Amigos");
         jBAmigos.addActionListener(new java.awt.event.ActionListener() {
@@ -45,6 +50,11 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         });
 
         jBFerramentas.setText("Ferramentas");
+        jBFerramentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBFerramentasActionPerformed(evt);
+            }
+        });
 
         jMSair.setText("Sair");
         jMSair.addActionListener(new java.awt.event.ActionListener() {
@@ -108,6 +118,15 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         FrmMenuAmigos objeto = new FrmMenuAmigos();
         objeto.setVisible(true);
     }//GEN-LAST:event_jBAmigosActionPerformed
+
+    private void jBFerramentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBFerramentasActionPerformed
+       FrmMenuFerramentas objeto = new FrmMenuFerramentas();
+        objeto.setVisible(true);
+    }//GEN-LAST:event_jBFerramentasActionPerformed
+
+    private void jBEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEmprestimoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBEmprestimoActionPerformed
 
     /**
      * @param args the command line arguments
