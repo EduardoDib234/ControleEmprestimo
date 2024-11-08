@@ -43,6 +43,11 @@ public class FrmMenuCadastrarAmigo extends javax.swing.JFrame {
         jLabel4.setText("Telefone:");
 
         jBCancelar.setText("Cancelar");
+        jBCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBCancelarActionPerformed(evt);
+            }
+        });
 
         jBAdicionar.setText("Adicionar");
 
@@ -92,6 +97,12 @@ public class FrmMenuCadastrarAmigo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
+        FrmMenuAmigos objeto = new FrmMenuAmigos();
+        objeto.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jBCancelarActionPerformed
 
     /**
      * @param args the command line arguments

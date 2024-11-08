@@ -4,8 +4,6 @@
  */
 package com.mycompany.controleemprestimo.view;
 
-import com.mycompany.controleemprestimo.model.FrmCadastroFerramenta;
-
 /**
  *
  * @author USUARIO
@@ -28,85 +26,79 @@ public class FrmMenuFerramentas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenuArquivo = new javax.swing.JMenu();
-        jMCadastroFerramenta = new javax.swing.JMenuItem();
-        jMGerenciarFerramenta = new javax.swing.JMenuItem();
-        jMSair = new javax.swing.JMenuItem();
-        jMenuSobre = new javax.swing.JMenu();
+        jBCadastrar = new javax.swing.JButton();
+        jBFerramentas1 = new javax.swing.JButton();
+        jBCadastrar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu Ferramentas");
 
-        jMenuArquivo.setText("Arquivo");
-        jMenuArquivo.addActionListener(new java.awt.event.ActionListener() {
+        jBCadastrar.setText("Sair");
+        jBCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuArquivoActionPerformed(evt);
+                jBCadastrarActionPerformed(evt);
             }
         });
 
-        jMCadastroFerramenta.setText("Cadastrar Ferramenta");
-        jMCadastroFerramenta.addActionListener(new java.awt.event.ActionListener() {
+        jBFerramentas1.setText("Ferramentas");
+        jBFerramentas1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMCadastroFerramentaActionPerformed(evt);
+                jBFerramentas1ActionPerformed(evt);
             }
         });
-        jMenuArquivo.add(jMCadastroFerramenta);
 
-        jMGerenciarFerramenta.setText("Gerenciar Ferramenta");
-        jMGerenciarFerramenta.addActionListener(new java.awt.event.ActionListener() {
+        jBCadastrar1.setText("Cadastrar");
+        jBCadastrar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMGerenciarFerramentaActionPerformed(evt);
+                jBCadastrar1ActionPerformed(evt);
             }
         });
-        jMenuArquivo.add(jMGerenciarFerramenta);
-
-        jMSair.setText("Sair");
-        jMSair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMSairActionPerformed(evt);
-            }
-        });
-        jMenuArquivo.add(jMSair);
-
-        jMenuBar1.add(jMenuArquivo);
-
-        jMenuSobre.setText("Sobre");
-        jMenuBar1.add(jMenuSobre);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(113, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jBCadastrar1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBFerramentas1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(107, 107, 107))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 277, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jBFerramentas1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jBCadastrar1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jBCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMSairActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMSairActionPerformed
-
-    private void jMCadastroFerramentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMCadastroFerramentaActionPerformed
-       FrmMenuCadastrarFerramentas objeto = new FrmMenuCadastrarFerramentas();
+    private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
+        FrmMenuPrincipal objeto = new FrmMenuPrincipal();
         objeto.setVisible(true);
-    }//GEN-LAST:event_jMCadastroFerramentaActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jBCadastrarActionPerformed
 
-    private void jMGerenciarFerramentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMGerenciarFerramentaActionPerformed
-   
-    }//GEN-LAST:event_jMGerenciarFerramentaActionPerformed
+    private void jBFerramentas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBFerramentas1ActionPerformed
+        FrmMenuListaFerramentas objeto = new FrmMenuListaFerramentas();
+        objeto.setVisible(true);
+        this.dispose();
 
-    private void jMenuArquivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuArquivoActionPerformed
-   FrmGerenciarFerramenta objeto = new FrmGerenciarFerramenta();
-         objeto.setVisible(true);   
-    }//GEN-LAST:event_jMenuArquivoActionPerformed
+    }//GEN-LAST:event_jBFerramentas1ActionPerformed
+
+    private void jBCadastrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrar1ActionPerformed
+        FrmMenuCadastrarFerramentas objeto = new FrmMenuCadastrarFerramentas();
+        objeto.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jBCadastrar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,12 +136,9 @@ public class FrmMenuFerramentas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem jMCadastroFerramenta;
-    private javax.swing.JMenuItem jMGerenciarFerramenta;
-    private javax.swing.JMenuItem jMSair;
-    private javax.swing.JMenu jMenuArquivo;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenu jMenuSobre;
+    private javax.swing.JButton jBCadastrar;
+    private javax.swing.JButton jBCadastrar1;
+    private javax.swing.JButton jBFerramentas1;
     // End of variables declaration//GEN-END:variables
 
     private static class FrmGerenciarFerramenta {
