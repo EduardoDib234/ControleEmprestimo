@@ -4,9 +4,9 @@ Sistema de gerenciamento de empréstimo de ferramentas
 
 ## **Integrantes**
 
-- **Jhonatan Matos Schmitt** (C0mrad078) - RA: 
-- **Kamily Pereira de Castro** - RA:
-- **Eduardo Henrique Dib Barbosa Anton** - RA:
+- **Jhonatan Matos Schmitt** (C0mrad078) - RA: 162210582
+- **Kamily Pereira de Castro** - RA: 162211995
+- **Eduardo Henrique Dib Barbosa Anton** - RA: 1624239244
 
 ## **Professores**
 
