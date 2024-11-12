@@ -32,6 +32,7 @@ public class FrmMenuAmigos extends javax.swing.JFrame {
         jBCadastro1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(" Menu de Amigos");
 
         jBLista.setText("Lista Amigos");
         jBLista.addActionListener(new java.awt.event.ActionListener() {
