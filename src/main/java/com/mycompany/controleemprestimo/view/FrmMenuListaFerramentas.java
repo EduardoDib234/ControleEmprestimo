@@ -46,6 +46,7 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
         jBCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Lista de Ferramentas");
 
         jTFerramentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

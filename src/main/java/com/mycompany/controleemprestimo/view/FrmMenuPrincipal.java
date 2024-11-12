@@ -34,6 +34,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         jMenu = new javax.swing.JMenuBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menu ");
 
         jBEmprestimo.setText("Emprestimo");
         jBEmprestimo.addActionListener(new java.awt.event.ActionListener() {

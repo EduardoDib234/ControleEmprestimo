@@ -40,6 +40,7 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
         jTTemefone = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Lista de Amigos");
 
         jTAmigos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
