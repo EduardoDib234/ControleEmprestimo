@@ -8,6 +8,9 @@ package com.mycompany.controleemprestimo.view;
  *
  * @author Administrator
  */
-public class Mensagem {
-    
+public class Mensagem extends Exception {
+
+    public Mensagem(String mensagem) {
+        super(mensagem);
+    }
 }

@@ -1,55 +1,84 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.controleemprestimo.model;
-// Definindo a classe Amigo, que representa um amigo com seus dados pessoais
+
+import com.mycompany.controleemprestimo.dao.AmigoDAO;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class Amigo {
-
-    // Atributo privado que armazena o nome do amigo
-    private String nome;
-
-    // Atributo privado que armazena o número de telefone do amigo
-    private String telefone;
-
-    // Atributo privado que armazena o ID do amigo
     private int id;
+    private String nome;
+    private String telefone;
+    private final AmigoDAO dao;
 
-    // Construtor da classe Amigo, que inicializa os atributos com os valores passados como parâmetros
-    Amigo(String nome, String telefone, int id) {
-        this.nome = nome;          // Inicializa o nome do amigo
-        this.telefone = telefone;   // Inicializa o telefone do amigo
-        this.id = id;               // Inicializa o ID do amigo
+    public Amigo() {
+        this.dao = new AmigoDAO();
     }
 
-    // Método público para obter o nome do amigo
-    public String getNome() {
-        return nome;
-    }
-
-    // Método público para definir o nome do amigo
-    public void setNome(String nome) {
+    public Amigo(String nome, String telefone) {
+        this.dao = new AmigoDAO();
         this.nome = nome;
-    }
-
-    // Método público para obter o telefone do amigo
-    public String getTelefone() {
-        return telefone;
-    }
-
-    // Método público para definir o telefone do amigo
-    public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
 
-    // Método público para obter o ID do amigo
+    public Amigo(int id, String nome, String telefone) {
+        this.dao = new AmigoDAO();
+        this.id = id;
+        this.nome = nome;
+        this.telefone = telefone;
+    }
+
     public int getId() {
         return id;
     }
 
-    // Método público para definir o ID do amigo
+    public String getNome() {
+        return nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
-}
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    // Métodos Controllers //
+    // Retorna o maior ID da base de dados
+    public int maiorID() throws SQLException {
+        return dao.pegaMaiorID();
+    }
+
+    // Retorna uma lista de amigos
+    public ArrayList<Amigo> pegarLista() {
+        return dao.getMinhaLista();
+    }
+
+    // Insere um amigo no banco
+    public boolean insertAmigo(String nome, String telefone) throws SQLException {
+        int id = this.maiorID() + 1;
+        Amigo objeto = new Amigo(id, nome, telefone);
+        dao.inserirAmigoBD(objeto);
+        return true;
+    }
+
+    // Atualiza as informações de um amigo no banco
+    public boolean updateAmigoBD(String nome, int id, String telefone) throws SQLException {
+        Amigo objeto = new Amigo(id, nome, telefone);
+        dao.atualizarAmigo(objeto);
+        return true;
+    }
+
+    // Carrega um amigo pelo ID
+    public Amigo pegaAmigo(int id) {
+        return dao.carregaAmigo(id);
+    }
+}

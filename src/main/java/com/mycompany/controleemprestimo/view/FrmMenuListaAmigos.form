@@ -51,7 +51,7 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jTId" alignment="0" min="-2" pref="305" max="-2" attributes="0"/>
                                       <Component id="jTNome" alignment="0" min="-2" pref="305" max="-2" attributes="0"/>
-                                      <Component id="jTTemefone" alignment="0" min="-2" pref="305" max="-2" attributes="0"/>
+                                      <Component id="jTTelefone" alignment="0" min="-2" pref="305" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -97,7 +97,7 @@
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTTemefone" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTTelefone" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
               </Group>
@@ -145,6 +145,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTAmigosMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -172,6 +175,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Atualizar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBAtualizarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -179,6 +185,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTNome">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTNomeActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jBCancelar">
       <Properties>
@@ -193,7 +202,7 @@
         <Property name="text" type="java.lang.String" value="Telefone:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTTemefone">
+    <Component class="javax.swing.JTextField" name="jTTelefone">
     </Component>
   </SubComponents>
 </Form>
