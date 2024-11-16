@@ -17,6 +17,7 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
         this.carregaTabela();
         setLocationRelativeTo(null);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -33,19 +34,21 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
         jBCancelar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jTTelefone = new javax.swing.JTextField();
+        jCBScore = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lista de Amigos");
 
         jTAmigos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Telefone"
+                "ID", "Nome", "Telefone", "Score"
             }
         ));
         jTAmigos.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -90,18 +93,34 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
 
         jLabel4.setText("Telefone:");
 
+        jCBScore.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Alto", "Medio", "Baixo"}));
+        jCBScore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBScoreActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Score:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(jBCancelar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBRemover)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jBAtualizar)
-                .addContainerGap(428, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addComponent(jBCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBRemover)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBAtualizar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(jCBScore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(426, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -129,12 +148,16 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(394, Short.MAX_VALUE)
+                .addContainerGap(388, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCBScore, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBCancelar)
                     .addComponent(jBRemover)
                     .addComponent(jBAtualizar))
-                .addGap(68, 68, 68))
+                .addGap(34, 34, 34))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -162,12 +185,15 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
     private void jBRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRemoverActionPerformed
         try {
             int id = 0;
+            // Verifica se uma linha foi selecionada
             if (this.jTAmigos.getSelectedRow() == -1) {
                 throw new Exception("Primeiro selecione um amigo para APAGAR.");
             } else {
+                // Obtém o ID do amigo selecionado na tabela
                 id = Integer.parseInt(this.jTAmigos.getValueAt(this.jTAmigos.getSelectedRow(), 0).toString());
             }
 
+            // Confirmação do usuário para exclusão
             Object[] options = {"Sim", "Não"};
             int resposta_usuario = JOptionPane.showOptionDialog(
                     null,
@@ -178,18 +204,23 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
                     null,
                     options,
                     options[0]);
+
+            // Se o usuário confirmar a exclusão
             if (resposta_usuario == 0) {
                 if (this.amigoDAO.deletaAmigoBD(id)) {
+                    // Limpa os campos da interface
                     this.jTNome.setText("");
                     this.jTTelefone.setText("");
                     this.jTId.setText("");
+                    this.jCBScore.setSelectedIndex(0); // Reseta a JComboBox para o primeiro item
+
                     JOptionPane.showMessageDialog(rootPane, "Amigo Deletado!");
                 }
             }
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         } finally {
-            carregaTabela();
+            carregaTabela(); // Atualiza a tabela após a exclusão
         }
     }//GEN-LAST:event_jBRemoverActionPerformed
 
@@ -204,37 +235,49 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
             int id = 0;
             String nome = "";
             String telefone = "";
+            String score = "";
 
+            // Verifica se uma linha foi selecionada
             if (this.jTAmigos.getSelectedRow() == -1) {
                 throw new Exception("Primeiro selecione um amigo para atualizar.");
             } else {
                 id = Integer.parseInt(this.jTAmigos.getValueAt(this.jTAmigos.getSelectedRow(), 0).toString());
             }
 
-            if (this.jTNome.getText().length() < 6|| this.jTNome.getText().length() > 30) {
-                JOptionPane.showMessageDialog(null, "Voce deve colocar Seu nome completo!");
+            // Validação do campo Nome
+            if (this.jTNome.getText().length() < 6 || this.jTNome.getText().length() > 30) {
+                JOptionPane.showMessageDialog(null, "Você deve colocar seu nome completo!");
             } else {
                 nome = this.jTNome.getText();
             }
 
+            // Validação do campo Telefone
             if (this.jTTelefone.getText().length() < 9 || this.jTTelefone.getText().length() > 11) {
-                throw new Exception("Telefones devem conter o digito 9 + DDD para ser aceito!");
+                throw new Exception("Telefones devem conter o dígito 9 + DDD para ser aceito!");
             } else {
                 telefone = this.jTTelefone.getText();
             }
 
-            Amigo amigoAtualizado = new Amigo(id, nome, telefone);
+            // Captura do valor selecionado na JComboBox
+            score = (String) this.jCBScore.getSelectedItem();
+
+            // Atualização do amigo
+            Amigo amigoAtualizado = new Amigo(id, nome, telefone, score);
             if (this.amigoDAO.atualizarAmigo(amigoAtualizado)) {
+                // Limpa os campos da interface
                 this.jTNome.setText("");
                 this.jTTelefone.setText("");
                 this.jTId.setText("");
+                this.jCBScore.setSelectedIndex(0); // Reseta a JComboBox para o primeiro item
+
                 JOptionPane.showMessageDialog(rootPane, "Amigo atualizado!");
             }
         } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, erro.getMessage());
         } finally {
-            carregaTabela();
+            carregaTabela(); // Atualiza a tabela após a atualização
         }
+
     }//GEN-LAST:event_jBAtualizarActionPerformed
 
     private void jTNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTNomeActionPerformed
@@ -243,17 +286,28 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
 
     private void jTAmigosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTAmigosMouseClicked
         if (this.jTAmigos.getSelectedRow() != -1) {
+            // Captura os valores das colunas da linha selecionada
             String id = this.jTAmigos.getValueAt(this.jTAmigos.getSelectedRow(), 0).toString();
             String nome = this.jTAmigos.getValueAt(this.jTAmigos.getSelectedRow(), 1).toString();
             String telefone = this.jTAmigos.getValueAt(this.jTAmigos.getSelectedRow(), 2).toString();
+            String score = this.jTAmigos.getValueAt(this.jTAmigos.getSelectedRow(), 3).toString(); // Captura o valor do score
 
+            // Preenche os campos de texto com os valores capturados
             this.jTId.setText(id);
             this.jTNome.setText(nome);
             this.jTTelefone.setText(telefone);
 
+            // Configura o item selecionado na JComboBox de acordo com o valor capturado
+            this.jCBScore.setSelectedItem(score);
+
+            // Desabilita a edição do campo ID
             this.jTId.setEnabled(false);
         }
     }//GEN-LAST:event_jTAmigosMouseClicked
+
+    private void jCBScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBScoreActionPerformed
+
+    }//GEN-LAST:event_jCBScoreActionPerformed
     public void carregaTabela() {
         DefaultTableModel modelo = (DefaultTableModel) this.jTAmigos.getModel();
         modelo.setNumRows(0);  // Limpar a tabela antes de recarregar
@@ -263,8 +317,8 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
             modelo.addRow(new Object[]{
                 a.getId(),
                 a.getNome(),
-                a.getTelefone()
-            });
+                a.getTelefone(),
+                a.getScore(),});
         }
     }
 
@@ -279,10 +333,12 @@ public class FrmMenuListaAmigos extends javax.swing.JFrame {
     private javax.swing.JButton jBAtualizar;
     private javax.swing.JButton jBCancelar;
     private javax.swing.JButton jBRemover;
+    private javax.swing.JComboBox<String> jCBScore;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTAmigos;
     private javax.swing.JTextField jTId;
