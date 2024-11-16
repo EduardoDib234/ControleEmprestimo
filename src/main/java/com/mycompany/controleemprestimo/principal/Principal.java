@@ -1,12 +1,12 @@
 package com.mycompany.controleemprestimo.principal;
 
-import com.mycompany.controleemprestimo.view.FrmMenuPrincipal;
+import com.mycompany.controleemprestimo.view.FrmMenuAcesso;
 
 public class Principal {
 
     public static void main(String[] args) {
 // Instancia a interface gráfica
-        FrmMenuPrincipal objetotela = new FrmMenuPrincipal();
+        FrmMenuAcesso objetotela = new FrmMenuAcesso();
 // Torna a janela visível
         objetotela.setVisible(true);
     }
