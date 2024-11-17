@@ -1,74 +1,100 @@
 package com.mycompany.controleemprestimo.model;
+import com.mycompany.controleemprestimo.dao.FerramentaDAO;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Ferramenta {
 
-    // Atributo privado para armazenar o ID da ferramenta
-    private int id;
-    // Atributo privado para armazenar o nome da ferramenta
-    private String nome;
-    // Atributo privado para armazenar a marca da ferramenta
-    private String marca;
-    // Atributo privado para armazenar o custo da ferramenta
-    private double custo;
-    // Atributo privado que indica o status da ferramenta (true para disponível, false para indisponível)
-    private boolean status;
+    private int id;         // Atributo para armazenar o ID único da ferramenta
+    private String nome;    // Atributo para armazenar o nome da ferramenta
+    private  int status;  // Atributo para armazenar o status da ferramenta
+    private double custo;   // Atributo para armazenar o custo da ferramenta
+    private final FerramentaDAO dao;  // Instância da classe FerramentaDAO, responsável por interagir com o banco de dados
 
-    // Construtor da classe, inicializa todos os atributos com valores passados como parâmetros
-    Ferramenta(int id, String nome, String marca, double custo, boolean status) {
-        this.id = id;           // Inicializa o ID da ferramenta
-        this.nome = nome;       // Inicializa o nome da ferramenta
-        this.marca = marca;     // Inicializa a marca da ferramenta
-        this.custo = custo;     // Inicializa o custo da ferramenta
-        this.status = status;   // Inicializa o status da ferramenta
+    // Construtor padrão que inicializa a instância da classe FerramentaDAO
+    public Ferramenta() {
+        this.dao = new FerramentaDAO();
     }
 
-    // Método público para obter o valor do ID da ferramenta
-    public int getId() {
-        return id;
-    }
-
-    // Método público para definir o valor do ID da ferramenta
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    // Método público para obter o nome da ferramenta
-    public String getNome() {
-        return nome;
-    }
-
-    // Método público para definir o nome da ferramenta
-    public void setNome(String nome) {
+    // Construtor que inicializa a ferramenta com nome, status e custo
+    public Ferramenta(String nome, int status, double custo) {
+        this.dao = new FerramentaDAO();  // Inicializa a instância de FerramentaDAO
         this.nome = nome;
-    }
-
-    // Método público para obter a marca da ferramenta
-    public String getMarca() {
-        return marca;
-    }
-
-    // Método público para definir a marca da ferramenta
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    // Método público para obter o custo da ferramenta
-    public double getCusto() {
-        return custo;
-    }
-
-    // Método público para definir o custo da ferramenta
-    public void setCusto(double custo) {
+        this.status = status;
         this.custo = custo;
     }
 
-    // Método público para obter o status da ferramenta (disponível ou indisponível)
-    public boolean isStatus() {
-        return status;
+    // Construtor que inicializa uma ferramenta com todos os atributos: id, nome, status e custo
+    public Ferramenta(int id, String nome, int status, double custo) {
+        this.dao = new FerramentaDAO();  // Inicializa a instância de FerramentaDAO
+        this.id = id;
+        this.nome = nome;
+        this.status = status;
+        this.custo = custo;
     }
 
-    // Método público para definir o status da ferramenta
-    public void setStatus(boolean status) {
-        this.status = status;
+    // Métodos getters (acessores) para obter os valores dos atributos
+    public int getId() {
+        return id;  // Retorna o ID da ferramenta
+    }
+
+    public String getNome() {
+        return nome;  // Retorna o nome da ferramenta
+    }
+
+    public  int getStatus() {
+        return status;  // Retorna o status da ferramenta
+    }
+
+    public double getCusto() {
+        return custo;  // Retorna o custo da ferramenta
+    }
+
+    // Métodos setters (modificadores) para modificar os valores dos atributos
+    public void setId(int id) {
+        this.id = id;  // Define o ID da ferramenta
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;  // Define o nome da ferramenta
+    }
+
+    public void setStatus(int status) {
+        this.status = status;  // Define o status da ferramenta
+    }
+
+    public void setCusto(double custo) {
+        this.custo = custo;  // Define o custo da ferramenta
+    }
+
+    // Métodos Controllers para interação com o banco de dados
+    // Retorna o maior ID das ferramentas armazenadas no banco de dados
+    public int maiorID() throws SQLException {
+        return dao.pegaMaiorID();  // Chama o método pegaMaiorID() do DAO para obter o maior ID
+    }
+
+    // Retorna uma lista de ferramentas
+    public ArrayList<Ferramenta> pegarLista() {
+        return dao.getMinhaLista();  // Chama o método getMinhaLista() do DAO para obter todas as ferramentas
+    }
+
+  
+    public boolean insertFerramenta(String nome,  int status, double custo) throws SQLException {
+        int id = this.maiorID() + 1;  // Obtém o maior ID e incrementa 1 para criar um novo ID
+        Ferramenta objeto = new Ferramenta(id, nome, status, custo);  // Cria um objeto Ferramenta com os dados fornecidos
+       dao.inserirFerramentaBD(objeto);  // Chama o método inserirFerramentaBD() do DAO para salvar a ferramenta no banco
+        return true;  // Retorna true após a inserção bem-sucedida
+    }
+   
+    // Atualiza as informações de uma ferramenta no banco de dados
+    public boolean updateFerramentaBD(int id, String nome,  int status, double custo) throws SQLException {
+        Ferramenta objeto = new Ferramenta(id, nome, status, custo);  // Cria um objeto Ferramenta com os dados atualizados
+        dao.atualizarFerramenta(objeto);  // Chama o método atualizarFerramenta() do DAO para atualizar a ferramenta no banco
+        return true;  // Retorna true após a atualização bem-sucedida
+    }
+
+    // Carrega uma ferramenta do banco de dados usando seu ID
+    public Ferramenta pegaFerramenta(int id) {
+        return dao.carregaFerramenta(id);  // Chama o método carregaFerramenta() do DAO para buscar a ferramenta no banco
     }
 }

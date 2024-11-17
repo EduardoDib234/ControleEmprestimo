@@ -1,9 +1,16 @@
 package com.mycompany.controleemprestimo.view;
 
+import javax.swing.JOptionPane;
+import com.mycompany.controleemprestimo.model.Ferramenta;
+import javax.swing.JComboBox;
+
 public class FrmMenuCadastrarFerramentas extends javax.swing.JFrame {
+
+    Ferramenta objeto = new Ferramenta();
 
     public FrmMenuCadastrarFerramentas() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -120,6 +127,76 @@ public class FrmMenuCadastrarFerramentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JBCadastrarActionPerformed
+
+        int id = 0;           // Inicializa a variável id (será gerado ou fornecido pelo sistema)
+        String nome = "";     // Inicializa a variável para armazenar o nome
+        String marca = "";    // Inicializa a variável para armazenar a marca
+        double custo = 0.0;   // Inicializa a variável para armazenar o custo
+         int status = 0;   // Inicializa a variável para armazenar o status
+
+        try {
+            // Validação do campo Nome
+            if (this.JTFNome.getText().length() < 6 || this.JTFNome.getText().length() > 30) {
+                // Caso o nome tenha comprimento incorreto, exibe mensagem
+                JOptionPane.showMessageDialog(null, "Você deve colocar seu nome completo! O nome deve ter entre 6 e 30 caracteres.");
+                return; // Interrompe a execução caso haja erro
+            } else {
+                nome = this.JTFNome.getText(); // Inicializa a variável nome com o valor do campo
+            }
+
+            // Validação do campo Marca
+            if (this.JTFMarca.getText().length() < 3 || this.JTFMarca.getText().length() > 20) {
+                // Caso a marca tenha comprimento incorreto, exibe mensagem
+                JOptionPane.showMessageDialog(null, "A marca deve ter entre 3 e 20 caracteres!");
+                return; // Interrompe a execução caso haja erro
+            } else {
+                marca = this.JTFMarca.getText(); // Inicializa a variável marca com o valor do campo
+            }
+
+            // Validação do campo Custo
+            try {
+                custo = Double.parseDouble(this.JTFCusto.getText()); // Tenta converter o custo para número
+                if (custo <= 0) {
+                    throw new NumberFormatException("Custo deve ser um valor positivo!");
+                }
+            } catch (NumberFormatException ex) {
+                // Caso falhe a conversão ou o valor seja inválido
+                JOptionPane.showMessageDialog(null, "Custo inválido. Insira um valor numérico válido!");
+                return; // Interrompe a execução caso haja erro
+            }
+
+            // Validação do campo Status (agora é um JTextField)
+            status = Integer.parseInt(this.JTFStatus.getText().trim()); // Pega o valor digitado no JTextField de Status e remove espaços extras
+            if (this.JTFStatus.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "O campo Status não pode estar vazio!");
+                return; // Interrompe a execução caso o campo status esteja vazio
+            }
+
+            // Se todos os campos forem válidos, então prossegue com a inserção
+            if (this.objeto.insertFerramenta(nome, status, custo)) {
+                // Exibe mensagem de sucesso
+                JOptionPane.showMessageDialog(rootPane, "Ferramenta cadastrada com sucesso!");
+
+                // Limpa os campos da interface
+                this.JTFNome.setText("");
+                this.JTFMarca.setText("");
+                this.JTFCusto.setText("");
+                this.JTFStatus.setText(""); // Reseta o JTextField de status
+
+                // Abre outro formulário, se necessário
+                FrmMenuFerramentas objeto = new FrmMenuFerramentas();
+                objeto.setVisible(true);
+                this.dispose(); // Fecha a janela atual
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro ao cadastrar a ferramenta. Tente novamente.");
+            }
+
+        } catch (Exception ex) {
+            // Captura e exibe qualquer erro ocorrido durante a execução
+            System.out.println("Erro: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+
 
     }//GEN-LAST:event_JBCadastrarActionPerformed
 
