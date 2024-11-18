@@ -1,4 +1,5 @@
 package com.mycompany.controleemprestimo.model;
+
 import com.mycompany.controleemprestimo.dao.FerramentaDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,8 +8,9 @@ public class Ferramenta {
 
     private int id;         // Atributo para armazenar o ID único da ferramenta
     private String nome;    // Atributo para armazenar o nome da ferramenta
-    private  int status;  // Atributo para armazenar o status da ferramenta
-    private double custo;   // Atributo para armazenar o custo da ferramenta
+    private String marca;  // Atributo para armazenar a marca da ferramenta
+    private double custo;  // Atributo para armazenar o status da ferramenta
+    private String status;   // Atributo para armazenar o custo da ferramenta
     private final FerramentaDAO dao;  // Instância da classe FerramentaDAO, responsável por interagir com o banco de dados
 
     // Construtor padrão que inicializa a instância da classe FerramentaDAO
@@ -17,20 +19,22 @@ public class Ferramenta {
     }
 
     // Construtor que inicializa a ferramenta com nome, status e custo
-    public Ferramenta(String nome, int status, double custo) {
+    public Ferramenta(String nome, String marca, double custo, String status) {
         this.dao = new FerramentaDAO();  // Inicializa a instância de FerramentaDAO
         this.nome = nome;
-        this.status = status;
+        this.marca = marca;
         this.custo = custo;
+        this.status = status;
     }
 
     // Construtor que inicializa uma ferramenta com todos os atributos: id, nome, status e custo
-    public Ferramenta(int id, String nome, int status, double custo) {
+    public Ferramenta(int id, String nome, String marca, double custo, String status) {
         this.dao = new FerramentaDAO();  // Inicializa a instância de FerramentaDAO
         this.id = id;
         this.nome = nome;
-        this.status = status;
+        this.marca = marca;
         this.custo = custo;
+        this.status = status;
     }
 
     // Métodos getters (acessores) para obter os valores dos atributos
@@ -42,7 +46,11 @@ public class Ferramenta {
         return nome;  // Retorna o nome da ferramenta
     }
 
-    public  int getStatus() {
+    public String getMarca() {
+        return marca;  // Retorna o nome da ferramenta
+    }
+
+    public String getStatus() {
         return status;  // Retorna o status da ferramenta
     }
 
@@ -59,7 +67,11 @@ public class Ferramenta {
         this.nome = nome;  // Define o nome da ferramenta
     }
 
-    public void setStatus(int status) {
+    public void setMarca(String marca) {
+        this.marca = marca;  // Define o nome da ferramenta
+    }
+
+    public void setStatus(String status) {
         this.status = status;  // Define o status da ferramenta
     }
 
@@ -78,17 +90,16 @@ public class Ferramenta {
         return dao.getMinhaLista();  // Chama o método getMinhaLista() do DAO para obter todas as ferramentas
     }
 
-  
-    public boolean insertFerramenta(String nome,  int status, double custo) throws SQLException {
+    public boolean insertFerramenta(String nome, String marca, double custo, String status) throws SQLException {
         int id = this.maiorID() + 1;  // Obtém o maior ID e incrementa 1 para criar um novo ID
-        Ferramenta objeto = new Ferramenta(id, nome, status, custo);  // Cria um objeto Ferramenta com os dados fornecidos
-       dao.inserirFerramentaBD(objeto);  // Chama o método inserirFerramentaBD() do DAO para salvar a ferramenta no banco
+        Ferramenta objeto = new Ferramenta(id, nome, marca, custo, status);  // Cria um objeto Ferramenta com os dados fornecidos
+        dao.inserirFerramentaBD(objeto);  // Chama o método inserirFerramentaBD() do DAO para salvar a ferramenta no banco
         return true;  // Retorna true após a inserção bem-sucedida
     }
-   
+
     // Atualiza as informações de uma ferramenta no banco de dados
-    public boolean updateFerramentaBD(int id, String nome,  int status, double custo) throws SQLException {
-        Ferramenta objeto = new Ferramenta(id, nome, status, custo);  // Cria um objeto Ferramenta com os dados atualizados
+    public boolean updateFerramentaBD(int id, String nome, String marca, double custo, String status) throws SQLException {
+        Ferramenta objeto = new Ferramenta(id, nome, marca, custo, status);  // Cria um objeto Ferramenta com os dados atualizados
         dao.atualizarFerramenta(objeto);  // Chama o método atualizarFerramenta() do DAO para atualizar a ferramenta no banco
         return true;  // Retorna true após a atualização bem-sucedida
     }

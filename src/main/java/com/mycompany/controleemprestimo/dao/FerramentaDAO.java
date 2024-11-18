@@ -63,9 +63,10 @@ public class FerramentaDAO {
                     while (resposta.next()) {
                         int id = resposta.getInt("id_ferramenta");
                         String nome = resposta.getString("nome");
-                        int status = resposta.getInt("status");
+                        String marca = resposta.getString("marca");
                         double custo = resposta.getDouble("custo");
-                        Ferramenta objeto = new Ferramenta(id, nome, status, custo);
+                        String status = resposta.getString("status");
+                        Ferramenta objeto = new Ferramenta(id, nome, marca, custo, status);
                         MinhaLista.add(objeto); // Adiciona o objeto à lista
                     }
                 }
@@ -84,15 +85,17 @@ public class FerramentaDAO {
      */
     public boolean inserirFerramentaBD(Ferramenta objeto) {
         // Adicione o campo "status" e "custo" na consulta
-        String sql = "INSERT INTO ferramentas(nome, status, custo) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO ferramentas(id_ferramenta,nome,marca,custo, status) VALUES(?,?,?,?,?)";
         try {
             Connection conexao = ConexaoDB.getConnection();
             if (conexao != null) {
                 try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
                     // Configure os valores dos placeholders na ordem correta
-                    stmt.setString(1, objeto.getNome());  // Parâmetro 1: Nome
-                    stmt.setInt(2, objeto.getStatus()); // Parâmetro 2: Status
-                    stmt.setDouble(3, objeto.getCusto());  // Parâmetro 3: Custo
+                    stmt.setInt(1, objeto.getId());
+                    stmt.setString(2, objeto.getNome());
+                    stmt.setString(3, objeto.getMarca());
+                    stmt.setDouble(4, objeto.getCusto());
+                     stmt.setString(5, objeto.getStatus());
 
                     stmt.execute(); // Executa o comando de inserção
                 }
@@ -132,13 +135,14 @@ public class FerramentaDAO {
      * @return true se a atualização foi bem-sucedida, false caso contrário.
      */
     public boolean atualizarFerramenta(Ferramenta objeto) {
-        String sql = "UPDATE ferramentas SET nome = ?, status = ?, custo = ? WHERE id_ferramenta = ?";
+        String sql = "UPDATE ferramentas SET nome = ?, marca = ?, custo = ?, status = ? WHERE id_ferramenta = ?";
         try (Connection conexao = ConexaoDB.getConnection(); PreparedStatement stmt = conexao.prepareStatement(sql)) {
             // Configura os parâmetros para a consulta
-            stmt.setString(1, objeto.getNome());  // Nome
-            stmt.setInt(2, objeto.getStatus()); // Status
-            stmt.setDouble(3, objeto.getCusto());  // Custo
-            stmt.setInt(4, objeto.getId());        // ID
+            stmt.setString(1, objeto.getNome());  
+            stmt.setString(2, objeto.getMarca());
+            stmt.setDouble(3, objeto.getCusto());
+            stmt.setString(4, objeto.getStatus());
+            stmt.setInt(5, objeto.getId());        
 
             // Executa a atualização e verifica se houve alteração
             int linhasAfetadas = stmt.executeUpdate();
@@ -168,8 +172,9 @@ public class FerramentaDAO {
                     // Se encontrar a ferramenta no banco de dados, popula o objeto
                     if (resposta.next()) {
                         objeto.setNome(resposta.getString("nome"));
-                        objeto.setStatus(resposta.getInt("status"));
+                        objeto.setMarca(resposta.getString("marca"));
                         objeto.setCusto(resposta.getDouble("custo"));
+                        objeto.setStatus(resposta.getString("status"));
                     }
                 }
             }

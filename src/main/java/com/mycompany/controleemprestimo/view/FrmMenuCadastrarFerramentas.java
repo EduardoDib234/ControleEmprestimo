@@ -132,48 +132,40 @@ public class FrmMenuCadastrarFerramentas extends javax.swing.JFrame {
         String nome = "";     // Inicializa a variável para armazenar o nome
         String marca = "";    // Inicializa a variável para armazenar a marca
         double custo = 0.0;   // Inicializa a variável para armazenar o custo
-         int status = 0;   // Inicializa a variável para armazenar o status
+        String status = "";   // Inicializa a variável para armazenar o status
 
         try {
-            // Validação do campo Nome
-            if (this.JTFNome.getText().length() < 6 || this.JTFNome.getText().length() > 30) {
-                // Caso o nome tenha comprimento incorreto, exibe mensagem
-                JOptionPane.showMessageDialog(null, "Você deve colocar seu nome completo! O nome deve ter entre 6 e 30 caracteres.");
-                return; // Interrompe a execução caso haja erro
+           // Validação do campo Nome
+            if (this.JTFNome.getText().length() < 1 || this.JTFNome.getText().length() > 30) {
+                JOptionPane.showMessageDialog(null, "Você deve colocar o completo da sua ferramenta!");
             } else {
-                nome = this.JTFNome.getText(); // Inicializa a variável nome com o valor do campo
+                nome = this.JTFNome.getText();
             }
 
-            // Validação do campo Marca
-            if (this.JTFMarca.getText().length() < 3 || this.JTFMarca.getText().length() > 20) {
-                // Caso a marca tenha comprimento incorreto, exibe mensagem
-                JOptionPane.showMessageDialog(null, "A marca deve ter entre 3 e 20 caracteres!");
-                return; // Interrompe a execução caso haja erro
+            // Validação do campo Telefone
+            if (this.JTFMarca.getText().length() < 1 || this.JTFMarca.getText().length() > 11) {
+                throw new Exception("O nome da Marca deve conter pelo menos 2 letras");
             } else {
-                marca = this.JTFMarca.getText(); // Inicializa a variável marca com o valor do campo
+                marca = this.JTFMarca.getText();
             }
 
-            // Validação do campo Custo
-            try {
-                custo = Double.parseDouble(this.JTFCusto.getText()); // Tenta converter o custo para número
-                if (custo <= 0) {
-                    throw new NumberFormatException("Custo deve ser um valor positivo!");
+            // Validação do campo status
+            if (this.JTFCusto.getText().length() < 1 || this.JTFCusto.getText().length() > 11) {
+                throw new Exception("O custo da sua ferramenta deve conter pelo menos 1 digito!");
+            } else {
+                custo = Double.parseDouble(this.JTFCusto.getText());;
+            }
+            if (this.JTFMarca.getText().length() < 1 || this.JTFMarca.getText().length() > 11) {
+                throw new Exception("O nome da Marca deve conter entre 2 e 11 caracteres.");
+            } else {
+                status = this.JTFStatus.getText().trim().toLowerCase(); // Remove espaços e converte para minúsculas
+                if (!status.equals("disponível") && !status.equals("indisponível")) {
+                    throw new Exception("O status deve ser 'disponível' ou 'indisponível'.");
                 }
-            } catch (NumberFormatException ex) {
-                // Caso falhe a conversão ou o valor seja inválido
-                JOptionPane.showMessageDialog(null, "Custo inválido. Insira um valor numérico válido!");
-                return; // Interrompe a execução caso haja erro
-            }
-
-            // Validação do campo Status (agora é um JTextField)
-            status = Integer.parseInt(this.JTFStatus.getText().trim()); // Pega o valor digitado no JTextField de Status e remove espaços extras
-            if (this.JTFStatus.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "O campo Status não pode estar vazio!");
-                return; // Interrompe a execução caso o campo status esteja vazio
             }
 
             // Se todos os campos forem válidos, então prossegue com a inserção
-            if (this.objeto.insertFerramenta(nome, status, custo)) {
+            if (this.objeto.insertFerramenta(nome, marca, custo, status)) {
                 // Exibe mensagem de sucesso
                 JOptionPane.showMessageDialog(rootPane, "Ferramenta cadastrada com sucesso!");
 
