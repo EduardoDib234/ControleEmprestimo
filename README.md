@@ -4,7 +4,7 @@ Sistema de gerenciamento de empréstimo de ferramentas
 
 ## **Integrantes**
 
-- **Jhonatan Matos Schmitt** (C0mrad078) - RA: 162210582
+- **Jhonatan Matos Schmitt** (nome presente nos commits: C0mrad078 e Jhonatan) - RA: 162210582
 - **Kamily Pereira de Castro** - RA: 162211995
 - **Eduardo Henrique Dib Barbosa Anton** - RA: 1624239244
 
