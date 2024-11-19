@@ -95,7 +95,7 @@ public class FrmMenuCadastrarFerramentas extends javax.swing.JFrame {
                         .addComponent(JBCancelar)
                         .addGap(38, 38, 38)
                         .addComponent(JBCadastrar)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
