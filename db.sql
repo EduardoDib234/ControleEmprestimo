@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS ferramentas;
 
 CREATE TABLE IF NOT EXISTS ferramentas (
     id_ferramenta INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255),
+    nome_ferramentas VARCHAR(255),
     marca VARCHAR(255),
     custo DECIMAL(10, 2),
     status VARCHAR(255)
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS ferramentas (
 
 CREATE TABLE IF NOT EXISTS amigos (
     id_amigo INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255),
+    nome_amigo VARCHAR(255),
     telefone VARCHAR(20),
     score VARCHAR(255)
 );

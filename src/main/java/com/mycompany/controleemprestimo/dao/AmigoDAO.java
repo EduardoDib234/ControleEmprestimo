@@ -1,7 +1,6 @@
 package com.mycompany.controleemprestimo.dao;
 
 import com.mycompany.controleemprestimo.model.Amigo;
-import com.mycompany.controleemprestimo.dao.ConexaoDB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -60,7 +59,7 @@ public class AmigoDAO {
                     // Itera sobre os resultados e cria objetos Amigo
                     while (resposta.next()) {
                         int id = resposta.getInt("id_amigo");
-                        String nome = resposta.getString("nome");
+                        String nome = resposta.getString("nome_amigo");
                         String telefone = resposta.getString("telefone");
                         String score = resposta.getString("score");
                         Amigo objeto = new Amigo(id, nome, telefone, score);
@@ -82,7 +81,7 @@ public class AmigoDAO {
      */
     public boolean inserirAmigoBD(Amigo objeto) {
         // Adicione o campo "score" na consulta
-        String sql = "INSERT INTO amigos(nome, telefone, score) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO amigos(nome_amigo, telefone, score) VALUES(?, ?, ?)";
         try {
             Connection conexao = ConexaoDB.getConnection();
             if (conexao != null) {
@@ -131,7 +130,7 @@ public class AmigoDAO {
      * @return true se a atualização foi bem-sucedida, false caso contrário.
      */
     public boolean atualizarAmigo(Amigo objeto) {
-        String sql = "UPDATE amigos SET nome = ?, telefone = ?, score = ? WHERE id_amigo = ?";
+        String sql = "UPDATE amigos SET nome_amigo = ?, telefone = ?, score = ? WHERE id_amigo = ?";
         try ( Connection conexao = ConexaoDB.getConnection();  PreparedStatement stmt = conexao.prepareStatement(sql)) {
 
             // Configura os parâmetros para a consulta
@@ -167,7 +166,7 @@ public class AmigoDAO {
 
                     // Se encontrar o amigo no banco de dados, popula o objeto
                     if (resposta.next()) {
-                        objeto.setNome(resposta.getString("nome"));
+                        objeto.setNome(resposta.getString("nome_amigo"));
                         objeto.setTelefone(resposta.getString("telefone"));
                         objeto.setScore(resposta.getString("score"));
                     }
