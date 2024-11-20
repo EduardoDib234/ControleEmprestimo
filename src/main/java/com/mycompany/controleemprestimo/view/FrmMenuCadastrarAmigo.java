@@ -132,7 +132,7 @@ public class FrmMenuCadastrarAmigo extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
-        FrmMenuAmigos objeto = new FrmMenuAmigos();
+        FrmMenuPrincipal objeto = new FrmMenuPrincipal();
         objeto.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jBCancelarActionPerformed
@@ -180,7 +180,7 @@ public class FrmMenuCadastrarAmigo extends javax.swing.JFrame {
                     this.jCBScore.setSelectedIndex(0); // Reseta a JComboBox para a primeira opção
 
                     // Abre outro formulário, se necessário
-                    FrmMenuAmigos objeto = new FrmMenuAmigos();
+                    FrmMenuPrincipal objeto = new FrmMenuPrincipal();
                     objeto.setVisible(true);
                     this.dispose();
                 }

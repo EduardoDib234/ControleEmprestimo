@@ -195,7 +195,7 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
-        FrmMenuFerramentas objeto = new FrmMenuFerramentas();
+        FrmMenuPrincipal objeto = new FrmMenuPrincipal();
         objeto.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jBCancelarActionPerformed
