@@ -59,7 +59,7 @@ public class FerramentaDAO {
                     // Itera sobre os resultados e cria objetos Ferramenta
                     while (resposta.next()) {
                         int id = resposta.getInt("id_ferramenta");
-                        String nome = resposta.getString("nome_ferramenta");
+                        String nome = resposta.getString("nome_ferramentas");
                         String marca = resposta.getString("marca");
                         double custo = resposta.getDouble("custo");
                         int status = resposta.getInt("status");
@@ -82,7 +82,7 @@ public class FerramentaDAO {
      */
     public boolean inserirFerramentaBD(Ferramenta objeto) {
         // Adicione o campo "status" e "custo" na consulta
-        String sql = "INSERT INTO ferramentas(id_ferramenta,nome_ferramenta,marca,custo, status) VALUES(?,?,?,?,1)";
+        String sql = "INSERT INTO ferramentas(id_ferramenta,nome_ferramentas,marca,custo, status) VALUES(?,?,?,?,1)";
         try {
             Connection conexao = ConexaoDB.getConnection();
             if (conexao != null) {
@@ -131,7 +131,7 @@ public class FerramentaDAO {
      * @return true se a atualização foi bem-sucedida, false caso contrário.
      */
     public boolean atualizarFerramenta(Ferramenta objeto) {
-        String sql = "UPDATE ferramentas SET nome_ferramenta = ?, marca = ?, custo = ?, status = ? WHERE id_ferramenta = ?";
+        String sql = "UPDATE ferramentas SET nome_ferramentas = ?, marca = ?, custo = ?, status = ? WHERE id_ferramenta = ?";
         try (Connection conexao = ConexaoDB.getConnection(); PreparedStatement stmt = conexao.prepareStatement(sql)) {
             // Configura os parâmetros para a consulta
             stmt.setString(1, objeto.getNome());  
@@ -167,7 +167,7 @@ public class FerramentaDAO {
 
                     // Se encontrar a ferramenta no banco de dados, popula o objeto
                     if (resposta.next()) {
-                        objeto.setNome(resposta.getString("nome_ferramenta"));
+                        objeto.setNome(resposta.getString("nome_ferramentas"));
                         objeto.setMarca(resposta.getString("marca"));
                         objeto.setCusto(resposta.getDouble("custo"));
                         objeto.setStatus(resposta.getInt("status"));
