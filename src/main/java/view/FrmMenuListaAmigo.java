@@ -1,11 +1,11 @@
-package com.mycompany.controleemprestimo.view;
+package view;
 
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import com.mycompany.controleemprestimo.model.Amigo;
-import com.mycompany.controleemprestimo.dao.AmigoDAO;
+import model.Amigo;
+import dao.AmigoDAO;
 
 public class FrmMenuListaAmigo extends javax.swing.JFrame {
 

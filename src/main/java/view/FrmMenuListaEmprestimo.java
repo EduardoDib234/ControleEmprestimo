@@ -1,4 +1,4 @@
-package com.mycompany.controleemprestimo.view;
+package view;
 
 
 public class FrmMenuListaEmprestimo extends javax.swing.JFrame {

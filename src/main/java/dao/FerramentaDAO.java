@@ -1,6 +1,6 @@
-package com.mycompany.controleemprestimo.dao;
+package dao;
 
-import com.mycompany.controleemprestimo.model.Ferramenta;
+import model.Ferramenta;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

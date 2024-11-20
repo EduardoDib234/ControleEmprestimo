@@ -1,10 +1,10 @@
-package com.mycompany.controleemprestimo.view;
+package view;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import com.mycompany.controleemprestimo.dao.FerramentaDAO;
-import com.mycompany.controleemprestimo.model.Ferramenta;
+import dao.FerramentaDAO;
+import model.Ferramenta;
 
 public class FrmMenuListaFerramentas extends javax.swing.JFrame {
 

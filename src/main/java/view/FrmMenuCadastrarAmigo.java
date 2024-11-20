@@ -1,7 +1,7 @@
-package com.mycompany.controleemprestimo.view;
+package view;
 
 import javax.swing.JOptionPane;
-import com.mycompany.controleemprestimo.model.Amigo;
+import model.Amigo;
 import javax.swing.JComboBox;
 
 public class FrmMenuCadastrarAmigo extends javax.swing.JFrame {

@@ -1,7 +1,7 @@
-package com.mycompany.controleemprestimo.view;
+package view;
 
 import javax.swing.JOptionPane;
-import com.mycompany.controleemprestimo.model.Ferramenta;
+import model.Ferramenta;
 import javax.swing.JComboBox;
 
 public class FrmMenuCadastrarFerramenta extends javax.swing.JFrame {

@@ -1,4 +1,4 @@
-package com.mycompany.controleemprestimo.view;
+package view;
 
 import javax.swing.JOptionPane;
 

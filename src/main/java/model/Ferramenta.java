@@ -1,6 +1,6 @@
-package com.mycompany.controleemprestimo.model;
+package model;
 
-import com.mycompany.controleemprestimo.dao.FerramentaDAO;
+import dao.FerramentaDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

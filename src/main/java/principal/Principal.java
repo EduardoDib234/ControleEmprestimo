@@ -1,6 +1,6 @@
-package com.mycompany.controleemprestimo.principal;
+package principal;
 
-import com.mycompany.controleemprestimo.view.FrmMenuAcesso;
+import view.FrmMenuAcesso;
 
 public class Principal {
 

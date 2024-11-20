@@ -1,4 +1,4 @@
-package com.mycompany.controleemprestimo.model;
+package model;
 
 import java.util.ArrayList;  // Importa a classe ArrayList para armazenar uma lista de objetos Ferramenta
 

@@ -1,11 +1,4 @@
-package com.mycompany.controleemprestimo.view;
-
-import com.mycompany.controleemprestimo.view.FrmMenuCadastrarAmigo;
-import com.mycompany.controleemprestimo.view.FrmMenuCadastrarEmprestimo;
-import com.mycompany.controleemprestimo.view.FrmMenuCadastrarFerramenta;
-import com.mycompany.controleemprestimo.view.FrmMenuListaAmigo;
-import com.mycompany.controleemprestimo.view.FrmMenuListaEmprestimo;
-import com.mycompany.controleemprestimo.view.FrmMenuListaFerramentas;
+package view;
 
 public class FrmMenuPrincipal extends javax.swing.JFrame {
 
