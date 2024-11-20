@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS ferramentas (
     nome_ferramentas VARCHAR(255),
     marca VARCHAR(255),
     custo DECIMAL(10, 2),
-    status VARCHAR(255)
+    status BOOLEAN NOT NULL DEFAULT FALSE;
 );
 
 CREATE TABLE IF NOT EXISTS amigos (
