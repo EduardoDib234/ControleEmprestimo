@@ -62,7 +62,7 @@ public class FerramentaDAO {
                         String nome = resposta.getString("nome_ferramenta");
                         String marca = resposta.getString("marca");
                         double custo = resposta.getDouble("custo");
-                        String status = resposta.getString("status");
+                        int status = resposta.getInt("status");
                         Ferramenta objeto = new Ferramenta(id, nome, marca, custo, status);
                         MinhaLista.add(objeto); // Adiciona o objeto à lista
                     }
@@ -82,7 +82,7 @@ public class FerramentaDAO {
      */
     public boolean inserirFerramentaBD(Ferramenta objeto) {
         // Adicione o campo "status" e "custo" na consulta
-        String sql = "INSERT INTO ferramentas(id_ferramenta,nome_ferramenta,marca,custo, status) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO ferramentas(id_ferramenta,nome_ferramenta,marca,custo, status) VALUES(?,?,?,?,1)";
         try {
             Connection conexao = ConexaoDB.getConnection();
             if (conexao != null) {
@@ -92,7 +92,6 @@ public class FerramentaDAO {
                     stmt.setString(2, objeto.getNome());
                     stmt.setString(3, objeto.getMarca());
                     stmt.setDouble(4, objeto.getCusto());
-                     stmt.setString(5, objeto.getStatus());
 
                     stmt.execute(); // Executa o comando de inserção
                 }
@@ -138,7 +137,7 @@ public class FerramentaDAO {
             stmt.setString(1, objeto.getNome());  
             stmt.setString(2, objeto.getMarca());
             stmt.setDouble(3, objeto.getCusto());
-            stmt.setString(4, objeto.getStatus());
+            stmt.setInt(4, objeto.getStatus());
             stmt.setInt(5, objeto.getId());        
 
             // Executa a atualização e verifica se houve alteração
@@ -171,7 +170,7 @@ public class FerramentaDAO {
                         objeto.setNome(resposta.getString("nome_ferramenta"));
                         objeto.setMarca(resposta.getString("marca"));
                         objeto.setCusto(resposta.getDouble("custo"));
-                        objeto.setStatus(resposta.getString("status"));
+                        objeto.setStatus(resposta.getInt("status"));
                     }
                 }
             }

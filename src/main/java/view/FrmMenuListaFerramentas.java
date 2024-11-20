@@ -54,6 +54,15 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
                 "ID", "Nome", "Marca", "Custo", "Status"
             }
         ));
+        jTFerramentas.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jTFerramentasAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         jTFerramentas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTFerramentasMouseClicked(evt);
@@ -65,6 +74,12 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
 
         jLabel2.setText("ID:");
 
+        jTId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTIdActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Nome:");
 
         jLabel4.setText("Marca:");
@@ -72,6 +87,12 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
         jLabel6.setText("Custo:");
 
         jLabel7.setText("Status:");
+
+        jTStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTStatusActionPerformed(evt);
+            }
+        });
 
         jBAtualizar.setText("Atualizar");
         jBAtualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -221,6 +242,8 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
 
                 // Desabilita a edição do campo ID
                 this.jTId.setEnabled(false);
+                this.jTStatus.setEnabled(false);
+                
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Dados da ferramenta inválidos. Tente novamente.");
             }
@@ -234,7 +257,8 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
             String nome = this.jTNome.getText().trim();
             String marca = this.jTMarca.getText().trim();
             double custo = Double.parseDouble(this.jTCusto.getText().trim());
-            String status = this.jTStatus.getText().trim().toLowerCase();
+            int status;
+
 
             // Validações básicas
             if (nome.isEmpty()) {
@@ -249,9 +273,10 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(rootPane, "O custo deve ser maior que zero!");
                 return;
             }
-            if (!status.equals("disponível") && !status.equals("indisponível")) {
-                JOptionPane.showMessageDialog(rootPane, "O status deve ser 'disponível' ou 'indisponível'.");
-                return;
+            if (this.jTStatus.getText().equals("Disponível")) {
+                status = 1;
+            } else {
+                status = 0;
             }
 
             // Cria o objeto Ferramenta com os dados validados
@@ -277,6 +302,7 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
             // Tratamento para outros erros gerais
             JOptionPane.showMessageDialog(rootPane, "Erro inesperado: " + e.getMessage());
         }
+        carregaTabela();
     }//GEN-LAST:event_jBAtualizarActionPerformed
 
     private void jBRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRemoverActionPerformed
@@ -321,6 +347,18 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
             carregaTabela(); // Atualiza a tabela após a exclusão
         }
     }//GEN-LAST:event_jBRemoverActionPerformed
+
+    private void jTStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTStatusActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTStatusActionPerformed
+
+    private void jTIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTIdActionPerformed
+
+    private void jTFerramentasAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTFerramentasAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFerramentasAncestorAdded
     public void carregaTabela() {
         DefaultTableModel modelo = (DefaultTableModel) this.jTFerramentas.getModel();
         modelo.setNumRows(0);  // Limpa a tabela antes de recarregar
@@ -332,14 +370,20 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Nenhuma ferramenta encontrada.");
             return;
         }
-
+        String change = "";
         for (Ferramenta a : minhalista) {
-            modelo.addRow(new Object[]{
+            if (a.getStatus() == 1) {
+                change = "Disponível";
+            } else {
+                change = "Indisponível";
+            }
+            modelo.addRow(new Object[]{                
                 a.getId(),
                 a.getNome(),
                 a.getMarca(),
                 a.getCusto(),
-                a.getStatus(),});
+                change
+            });
         }
     }
 

@@ -20,11 +20,9 @@ public class FrmMenuCadastrarFerramenta extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         JTFNome = new javax.swing.JTextField();
         JTFMarca = new javax.swing.JTextField();
         JTFCusto = new javax.swing.JTextField();
-        JTFStatus = new javax.swing.JTextField();
         JBCancelar = new javax.swing.JButton();
         JBCadastrar = new javax.swing.JButton();
 
@@ -37,17 +35,9 @@ public class FrmMenuCadastrarFerramenta extends javax.swing.JFrame {
 
         jLabel3.setText("Custo:");
 
-        jLabel4.setText("Status:");
-
         JTFNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 JTFNomeActionPerformed(evt);
-            }
-        });
-
-        JTFStatus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JTFStatusActionPerformed(evt);
             }
         });
 
@@ -70,37 +60,32 @@ public class FrmMenuCadastrarFerramenta extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(JTFCusto))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(JTFStatus))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(JTFMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(JTFNome))))
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JTFMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(JBCancelar)
-                        .addGap(38, 38, 38)
-                        .addComponent(JBCadastrar)))
-                .addContainerGap(60, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(JTFNome))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(JBCancelar)
+                                .addGap(38, 38, 38)
+                                .addComponent(JBCadastrar))
+                            .addComponent(JTFCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(JTFNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -112,15 +97,11 @@ public class FrmMenuCadastrarFerramenta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(JTFCusto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(JTFStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(JBCancelar)
                     .addComponent(JBCadastrar))
-                .addContainerGap())
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
@@ -157,15 +138,10 @@ public class FrmMenuCadastrarFerramenta extends javax.swing.JFrame {
             }
             if (this.JTFMarca.getText().length() < 1 || this.JTFMarca.getText().length() > 11) {
                 throw new Exception("O nome da Marca deve conter entre 2 e 11 caracteres.");
-            } else {
-                status = this.JTFStatus.getText().trim().toLowerCase(); // Remove espaços e converte para minúsculas
-                if (!status.equals("disponível") && !status.equals("indisponível")) {
-                    throw new Exception("O status deve ser 'disponível' ou 'indisponível'.");
-                }
             }
 
             // Se todos os campos forem válidos, então prossegue com a inserção
-            if (this.objeto.insertFerramenta(nome, marca, custo, status)) {
+            if (this.objeto.insertFerramenta(nome, marca, custo, 1)) {
                 // Exibe mensagem de sucesso
                 JOptionPane.showMessageDialog(rootPane, "Ferramenta cadastrada com sucesso!");
 
@@ -173,8 +149,7 @@ public class FrmMenuCadastrarFerramenta extends javax.swing.JFrame {
                 this.JTFNome.setText("");
                 this.JTFMarca.setText("");
                 this.JTFCusto.setText("");
-                this.JTFStatus.setText(""); // Reseta o JTextField de status
-
+                
                 // Abre outro formulário, se necessário
                 FrmMenuPrincipal objeto = new FrmMenuPrincipal();
                 objeto.setVisible(true);
@@ -202,10 +177,6 @@ public class FrmMenuCadastrarFerramenta extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_JBCancelarActionPerformed
 
-    private void JTFStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JTFStatusActionPerformed
-
-    }//GEN-LAST:event_JTFStatusActionPerformed
-
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -220,10 +191,8 @@ public class FrmMenuCadastrarFerramenta extends javax.swing.JFrame {
     private javax.swing.JTextField JTFCusto;
     private javax.swing.JTextField JTFMarca;
     private javax.swing.JTextField JTFNome;
-    private javax.swing.JTextField JTFStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }
