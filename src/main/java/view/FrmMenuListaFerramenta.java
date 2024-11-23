@@ -6,11 +6,11 @@ import javax.swing.table.DefaultTableModel;
 import dao.FerramentaDAO;
 import model.Ferramenta;
 
-public class FrmMenuListaFerramentas extends javax.swing.JFrame {
+public class FrmMenuListaFerramenta extends javax.swing.JFrame {
 
     private FerramentaDAO ferramentaDAO;
 
-    public FrmMenuListaFerramentas() {
+    public FrmMenuListaFerramenta() {
         initComponents();
         this.ferramentaDAO = new FerramentaDAO();
         this.carregaTabela();
@@ -390,7 +390,7 @@ public class FrmMenuListaFerramentas extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmMenuListaFerramentas().setVisible(true);
+                new FrmMenuListaFerramenta().setVisible(true);
             }
         });
     }

@@ -109,7 +109,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        FrmMenuListaFerramentas objeto = new FrmMenuListaFerramentas();
+        FrmMenuListaFerramenta objeto = new FrmMenuListaFerramenta();
         objeto.setVisible(true);
         this.dispose();
 
