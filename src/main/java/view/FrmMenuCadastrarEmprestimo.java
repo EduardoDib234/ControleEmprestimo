@@ -294,93 +294,79 @@ public class FrmMenuCadastrarEmprestimo extends javax.swing.JFrame {
     }//GEN-LAST:event_jTCustoTotalActionPerformed
 
     private void jBCadastrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrar1ActionPerformed
-        try {
-            // Verifica se o ID do amigo está preenchido
-            if (this.jTIdamigo.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Por favor, selecione um amigo!");
-                return;
-            }
-
-            // Verifica se a lista de ferramentas selecionadas está vazia
-            if (listFerramentasSelecionadas.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Por favor, selecione pelo menos uma ferramenta!");
-                return;
-            }
-
-            // Verifica se as datas foram selecionadas
-            if (jDateChooser1 == null || jDateChooser2 == null) {
-                JOptionPane.showMessageDialog(null, "Por favor, selecione as datas de empréstimo e devolução!");
-                return;
-            }
-
-            Date dataInicio = jDateChooser1.getDate();
-            Date dataFinal = jDateChooser2.getDate();
-            Date dataAtual = new Date();
-
-            // Verificar se a data de início foi selecionada
-            if (dataInicio == null) {
-                JOptionPane.showMessageDialog(null, "Por favor, selecione a data de empréstimo!");
-                return;
-            }
-
-            // Verificar se a data de devolução foi selecionada
-            if (dataFinal == null) {
-                JOptionPane.showMessageDialog(null, "Por favor, selecione a data de devolução!");
-                return;
-            }
-
-            // Verificar se a data de empréstimo está no passado
-            if (dataInicio.before(dataAtual)) {
-                JOptionPane.showMessageDialog(null, "A data de empréstimo não pode ser no passado!");
-                return;
-            }
-
-            // Verificar se a data de devolução é anterior à data de empréstimo
-            if (dataFinal.before(dataInicio)) {
-                JOptionPane.showMessageDialog(null, "A data de devolução não pode ser anterior à data de empréstimo!");
-                return;
-            }
-
-            // Verificar se o período de empréstimo excede 90 dias
-            long diferencaMilissegundos = dataFinal.getTime() - dataInicio.getTime();
-            long diferencaDias = diferencaMilissegundos / (1000 * 60 * 60 * 24); // Converter para dias
-
-            if (diferencaDias > 90) {
-                JOptionPane.showMessageDialog(null, "O período de empréstimo não pode exceder 90 dias!");
-                return;
-            }
-
-            // Conversão das datas para SQL
-            java.sql.Date sqlDataInicio = new java.sql.Date(dataInicio.getTime());
-            java.sql.Date sqlDataFinal = new java.sql.Date(dataFinal.getTime());
-
-            int idAmigo = Integer.parseInt(jTIdamigo.getText());
-            double custoTotal = Double.parseDouble(jTCustoTotal.getText());
-
-            // Realiza o cadastro do empréstimo
-            if (this.emprestimo.inserirEmprestimo(idAmigo, custoTotal, listFerramentasSelecionadas, sqlDataInicio, sqlDataFinal)) {
-                JOptionPane.showMessageDialog(null, "Empréstimo realizado com sucesso!");
-                this.carregaTabelaAmigo();
-                this.carregaTabelaFerramenta1();
-
-                // Limpar os campos
-                this.jTCustoTotal.setText("");
-                this.jTIdamigo.setText("");
-                this.jTNomeamigo.setText("");
-                this.jTScore.setText("");
-                this.jTtelefone.setText("");
-
-                // Limpar a tabela jTFerramentas
-                DefaultTableModel modelo = (DefaultTableModel) jTFerramentas.getModel();
-                modelo.setRowCount(0); // Remove todas as linhas
-
-                // Limpar lista de ferramentas associada
-                listFerramentasSelecionadas.clear();
-            }
-        } catch (Exception e) {
-            e.printStackTrace(); // Exibe a exceção no console
-            JOptionPane.showMessageDialog(null, "Erro ao cadastrar o empréstimo: " + e.getMessage());
+    try {
+        // Verifica se o ID do amigo está preenchido
+        if (this.jTIdamigo.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Por favor, selecione um amigo!");
+            return;
         }
+
+        // Verifica se a lista de ferramentas selecionadas está vazia
+        if (listFerramentasSelecionadas.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor, selecione pelo menos uma ferramenta!");
+            return;
+        }
+
+        // Define automaticamente a data de empréstimo para o dia atual
+        Date dataAtual = new Date();
+        jDateChooser1.setDate(dataAtual);
+        jDateChooser1.setEnabled(false); // Desativa a edição da data de empréstimo pelo usuário
+
+        Date dataInicio = jDateChooser1.getDate();
+        Date dataFinal = jDateChooser2.getDate();
+
+        // Verificar se a data de devolução foi selecionada
+        if (dataFinal == null) {
+            JOptionPane.showMessageDialog(null, "Por favor, selecione a data de devolução!");
+            return;
+        }
+
+        // Verificar se a data de devolução é anterior à data de empréstimo
+        if (dataFinal.before(dataInicio)) {
+            JOptionPane.showMessageDialog(null, "A data de devolução não pode ser anterior à data de empréstimo!");
+            return;
+        }
+
+        // Verificar se o período de empréstimo excede 90 dias
+        long diferencaMilissegundos = dataFinal.getTime() - dataInicio.getTime();
+        long diferencaDias = diferencaMilissegundos / (1000 * 60 * 60 * 24); // Converter para dias
+
+        if (diferencaDias > 90) {
+            JOptionPane.showMessageDialog(null, "O período de empréstimo não pode exceder 90 dias!");
+            return;
+        }
+
+        // Conversão das datas para SQL
+        java.sql.Date sqlDataInicio = new java.sql.Date(dataInicio.getTime());
+        java.sql.Date sqlDataFinal = new java.sql.Date(dataFinal.getTime());
+
+        int idAmigo = Integer.parseInt(jTIdamigo.getText());
+        double custoTotal = Double.parseDouble(jTCustoTotal.getText());
+
+        // Realiza o cadastro do empréstimo
+        if (this.emprestimo.inserirEmprestimo(idAmigo, custoTotal, listFerramentasSelecionadas, sqlDataInicio, sqlDataFinal)) {
+            JOptionPane.showMessageDialog(null, "Empréstimo realizado com sucesso!");
+            this.carregaTabelaAmigo();
+            this.carregaTabelaFerramenta1();
+
+            // Limpar os campos
+            this.jTCustoTotal.setText("");
+            this.jTIdamigo.setText("");
+            this.jTNomeamigo.setText("");
+            this.jTScore.setText("");
+            this.jTtelefone.setText("");
+
+            // Limpar a tabela jTFerramentas
+            DefaultTableModel modelo = (DefaultTableModel) jTFerramentas.getModel();
+            modelo.setRowCount(0); // Remove todas as linhas
+
+            // Limpar lista de ferramentas associada
+            listFerramentasSelecionadas.clear();
+        }
+    } catch (Exception e) {
+        e.printStackTrace(); // Exibe a exceção no console
+        JOptionPane.showMessageDialog(null, "Erro ao cadastrar o empréstimo: " + e.getMessage());
+    }
     }//GEN-LAST:event_jBCadastrar1ActionPerformed
 
     private void jTFerramentas1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFerramentas1MouseClicked
