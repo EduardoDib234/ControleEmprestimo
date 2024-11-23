@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS ferramentas (
     nome_ferramentas VARCHAR(255),
     marca VARCHAR(255),
     custo DECIMAL(10, 2),
-    status BOOLEAN NOT NULL DEFAULT FALSE;
+    status BOOLEAN NOT NULL DEFAULT TRUE -- TRUE: Disponível, FALSE: Indisponível
 );
 
 CREATE TABLE IF NOT EXISTS amigos (
@@ -25,17 +25,17 @@ CREATE TABLE IF NOT EXISTS amigos (
 CREATE TABLE IF NOT EXISTS emprestimos (
     id_emprestimo INT AUTO_INCREMENT PRIMARY KEY,
     id_amigo INT,
-    id_ferramenta INT,
     data_emprestimo DATE,
     data_devolucao DATE,
-    status INT NOT NULL,
-    FOREIGN KEY (id_ferramenta) REFERENCES ferramentas(id_ferramenta),
+    status INT NOT NULL, -- 1: Aberto, 2: Concluído
+    custo_total DECIMAL(10, 2), -- Total do custo do empréstimo
     FOREIGN KEY (id_amigo) REFERENCES amigos(id_amigo)
 );
 
 CREATE TABLE IF NOT EXISTS ferramentas_emprestadas (
     id_emprestimo INT NOT NULL,
     id_ferramenta INT NOT NULL,
+    PRIMARY KEY (id_emprestimo, id_ferramenta),
     FOREIGN KEY (id_emprestimo) REFERENCES emprestimos(id_emprestimo),
     FOREIGN KEY (id_ferramenta) REFERENCES ferramentas(id_ferramenta)
 );

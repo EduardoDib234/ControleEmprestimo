@@ -10,14 +10,14 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 
 public class Emprestimo {
-    private Integer idEmprestimo;
-    private Integer idAmigo;
+    private int idEmprestimo;
+    private int idAmigo;
+    private double custoTotal;
     private Date dataInicial;
     private Date dataDevolucao;
     private SituacaoEmprestimo status;
-    private Amigo amigo;
     private List<Ferramenta> ferramentasSelecionadas;
-    private final EmprestimoDAO dao;
+    private EmprestimoDAO dao;
 
     // Construtor padrão
     public Emprestimo() {
@@ -26,8 +26,9 @@ public class Emprestimo {
     }
 
     // Construtor com parâmetros
-    public Emprestimo(Integer idAmigo, Date dataInicial, Date dataDevolucao, SituacaoEmprestimo status, List<Ferramenta> ferramentasSelecionadas) {
+    public Emprestimo(int idAmigo, double custoTotal, Date dataInicial, Date dataDevolucao, SituacaoEmprestimo status, List<Ferramenta> ferramentasSelecionadas) {
         this.idAmigo = idAmigo;
+        this.custoTotal = custoTotal;
         this.dataInicial = dataInicial;
         this.dataDevolucao = dataDevolucao;
         this.status = status;
@@ -35,32 +36,40 @@ public class Emprestimo {
         this.dao = EmprestimoDAO.getInstance();
     }
 
-    public Emprestimo(Integer idEmprestimo, Integer idAmigo, Date dataInicial, Date dataDevolucao, SituacaoEmprestimo status, Amigo amigo, List<Ferramenta> ferramentasSelecionadas) {
+    public Emprestimo(int idEmprestimo, int idAmigo, double custoTotal, Date dataInicial, Date dataDevolucao, SituacaoEmprestimo status, List<Ferramenta> ferramentasSelecionadas) {
         this.idEmprestimo = idEmprestimo;
         this.idAmigo = idAmigo;
+        this.custoTotal = custoTotal;
         this.dataInicial = dataInicial;
         this.dataDevolucao = dataDevolucao;
         this.status = status;
-        this.amigo = amigo;
         this.ferramentasSelecionadas = ferramentasSelecionadas != null ? ferramentasSelecionadas : new ArrayList<>();
         this.dao = EmprestimoDAO.getInstance();
     }
 
     // Getters and setters
-    public Integer getIdEmprestimo() {
+    public int getIdEmprestimo() {
         return idEmprestimo;
     }
 
-    public void setIdEmprestimo(Integer idEmprestimo) {
+    public void setIdEmprestimo(int idEmprestimo) {
         this.idEmprestimo = idEmprestimo;
     }
 
-    public Integer getIdAmigo() {
+    public int getIdAmigo() {
         return idAmigo;
     }
 
-    public void setIdAmigo(Integer idAmigo) {
+    public void setIdAmigo(int idAmigo) {
         this.idAmigo = idAmigo;
+    }
+    
+    public double getCustoTotal() {
+        return custoTotal;
+    }
+
+    public void setCustoTotal(double custoTotal) {
+        this.custoTotal = custoTotal;
     }
 
     public Date getDataInicial() {
@@ -85,14 +94,6 @@ public class Emprestimo {
 
     public void setStatus(SituacaoEmprestimo status) {
         this.status = status;
-    }
-
-    public Amigo getAmigo() {
-        return amigo;
-    }
-
-    public void setAmigo(Amigo amigo) {
-        this.amigo = amigo;
     }
 
     public List<Ferramenta> getFerramentasSelecionadas() {
@@ -123,10 +124,14 @@ public class Emprestimo {
         return dao.listarEmprestimos();
     }
 
-    public boolean inserirEmprestimo(int idAmigo, List<Ferramenta> ferramentasSelecionadas, Date dataInicial, Date dataDevolucao) {
-        Emprestimo objeto = new Emprestimo(idAmigo, dataInicial, dataDevolucao, SituacaoEmprestimo.ABERTO, ferramentasSelecionadas);
-        return dao.inserirEmprestimo(objeto);
-    }
+public boolean inserirEmprestimo(int idAmigo, double custoTotal, List<Ferramenta> ferramentasSelecionadas, Date dataInicial, Date dataDevolucao) {
+    // Cria o objeto de Emprestimo
+    Emprestimo objeto = new Emprestimo(idAmigo, custoTotal, dataInicial, dataDevolucao, SituacaoEmprestimo.ABERTO, ferramentasSelecionadas);
+
+    // Chama o DAO para inserir o empréstimo e as ferramentas
+    return dao.inserirEmprestimo(objeto);
+}
+
 
     public int qtdFerramentasEmprestimo(int id) {
         Emprestimo emprestimo = dao.buscarEmprestimoPorId(id);
@@ -141,14 +146,6 @@ public class Emprestimo {
         LocalDate dataInicialLD = LocalDate.parse(dtInicialStr, formatter);
         LocalDate dataDevolucaoLD = LocalDate.parse(dtDevolucaoStr, formatter);
         return ChronoUnit.DAYS.between(LocalDate.now(), dataDevolucaoLD);
-    }
-
-    public double calcularTotalEmprestimo() {
-        double totalEmprestimo = 0.0;
-        for (Ferramenta ferramenta : ferramentasSelecionadas) {
-            totalEmprestimo += ferramenta.getCusto();
-        }
-        return totalEmprestimo;
     }
 
     public Emprestimo buscarEmprestimoPorId(int id) {
@@ -182,7 +179,7 @@ public class Emprestimo {
         List<Emprestimo> emprestimos = listarEmprestimos();
         boolean sucesso = true;
         for (Emprestimo emprestimo : emprestimos) {
-            if (emprestimo.getIdAmigo().equals(idAmigo)) {
+            if (emprestimo.getIdAmigo() == idAmigo) {
                 sucesso &= removerEmprestimo(emprestimo.getIdEmprestimo());
             }
         }

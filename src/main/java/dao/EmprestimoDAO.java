@@ -23,60 +23,72 @@ public class EmprestimoDAO {
         return instance;
     }
 
-    public boolean inserirEmprestimo(Emprestimo emprestimo) {
-        String sqlEmprestimo = "INSERT INTO emprestimos (id_amigo, data_emprestimo, data_devolucao, status) VALUES (?, ?, ?, ?)";
-        String sqlFerramentasEmprestadas = "INSERT INTO ferramentas_emprestadas (id_emprestimo, id_ferramenta) VALUES (?, ?)";
-        String sqlAtualizaFerramenta = "UPDATE ferramentas SET status = ? WHERE id_ferramenta = ?";
-        try (Connection connection = ConexaoDB.getConnection();
-             PreparedStatement psEmprestimo = connection.prepareStatement(sqlEmprestimo, Statement.RETURN_GENERATED_KEYS);
-             PreparedStatement psFerramentasEmprestadas = connection.prepareStatement(sqlFerramentasEmprestadas);
-             PreparedStatement psAtualizaFerramenta = connection.prepareStatement(sqlAtualizaFerramenta)) {
+public boolean inserirEmprestimo(Emprestimo emprestimo) {
+    String sqlEmprestimo = "INSERT INTO emprestimos (id_amigo, data_emprestimo, data_devolucao, status, custo_total) VALUES (?, ?, ?, ?, ?)";
+    String sqlFerramentasEmprestadas = "INSERT INTO ferramentas_emprestadas (id_emprestimo, id_ferramenta) VALUES (?, ?)";
+    String sqlAtualizaFerramenta = "UPDATE ferramentas SET status = ? WHERE id_ferramenta = ?";
 
-            connection.setAutoCommit(false);
+    try (Connection connection = ConexaoDB.getConnection();
+         PreparedStatement psEmprestimo = connection.prepareStatement(sqlEmprestimo, Statement.RETURN_GENERATED_KEYS);
+         PreparedStatement psFerramentasEmprestadas = connection.prepareStatement(sqlFerramentasEmprestadas);
+         PreparedStatement psAtualizaFerramenta = connection.prepareStatement(sqlAtualizaFerramenta)) {
 
-            psEmprestimo.setInt(1, emprestimo.getIdAmigo());
-            psEmprestimo.setDate(2, emprestimo.getDataInicial());
-            psEmprestimo.setDate(3, emprestimo.getDataDevolucao());
-            psEmprestimo.setInt(4, SituacaoEmprestimo.ABERTO.ordinal() + 1);
-            psEmprestimo.executeUpdate();
+        connection.setAutoCommit(false);
 
-            ResultSet generatedKeys = psEmprestimo.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                int emprestimoId = generatedKeys.getInt(1);
-                for (Ferramenta ferramenta : emprestimo.getFerramentasSelecionadas()) {
-                    psFerramentasEmprestadas.setInt(1, emprestimoId);
-                    psFerramentasEmprestadas.setInt(2, ferramenta.getId());
-                    psFerramentasEmprestadas.addBatch();
+        // Inserir o empréstimo e obter o ID gerado
+        psEmprestimo.setInt(1, emprestimo.getIdAmigo());
+        psEmprestimo.setDate(2, new java.sql.Date(emprestimo.getDataInicial().getTime()));
+        psEmprestimo.setDate(3, new java.sql.Date(emprestimo.getDataDevolucao().getTime()));
+        psEmprestimo.setInt(4, SituacaoEmprestimo.ABERTO.ordinal() + 1); // Status: "ABERTO"
+        psEmprestimo.setDouble(5, emprestimo.getCustoTotal());
+        psEmprestimo.executeUpdate();
 
-                    psAtualizaFerramenta.setBoolean(1, false);
-                    psAtualizaFerramenta.setInt(2, ferramenta.getId());
-                    psAtualizaFerramenta.addBatch();
-                }
-                psFerramentasEmprestadas.executeBatch();
-                psAtualizaFerramenta.executeBatch();
-            } else {
-                throw new SQLException("Erro ao obter o ID do emprestimo.");
+        // Obter o ID do empréstimo gerado
+        ResultSet generatedKeys = psEmprestimo.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            int emprestimoId = generatedKeys.getInt(1); // ID do empréstimo gerado
+
+            // Inserir as ferramentas associadas ao empréstimo
+            for (Ferramenta ferramenta : emprestimo.getFerramentasSelecionadas()) {
+                // Inserir na tabela ferramentas_emprestadas
+                psFerramentasEmprestadas.setInt(1, emprestimoId); // ID do empréstimo
+                psFerramentasEmprestadas.setInt(2, ferramenta.getId()); // ID da ferramenta
+                psFerramentasEmprestadas.addBatch();
+
+                // Atualizar o status da ferramenta para "indisponível"
+                psAtualizaFerramenta.setBoolean(1, false); // Status "indisponível"
+                psAtualizaFerramenta.setInt(2, ferramenta.getId());
+                psAtualizaFerramenta.addBatch();
             }
 
-            connection.commit();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try (Connection connection = ConexaoDB.getConnection()) {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            } catch (SQLException rollbackEx) {
-                rollbackEx.printStackTrace();
-            }
-            return false;
+            // Executa o batch para as ferramentas e atualiza os status
+            psFerramentasEmprestadas.executeBatch();
+            psAtualizaFerramenta.executeBatch();
+        } else {
+            throw new SQLException("Erro ao obter o ID do empréstimo.");
         }
+
+        // Commit da transação
+        connection.commit();
+        return true;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        try (Connection connection = ConexaoDB.getConnection()) {
+            if (connection != null) {
+                connection.rollback();
+            }
+        } catch (SQLException rollbackEx) {
+            rollbackEx.printStackTrace();
+        }
+        return false;
     }
+}
+
+
 
     public boolean atualizarEmprestimo(Emprestimo emprestimo) {
-        String sqlUpdate = "UPDATE emprestimos SET id_amigo = ?, data_emprestimo = ?, data_devolucao = ?, status = ? WHERE id_emprestimo = ?";
-        try (Connection connection = ConexaoDB.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlUpdate)) {
+        String sqlUpdate = "UPDATE emprestimos SET id_amigo = ?, data_emprestimo = ?, data_devolucao = ?, status = ?, custo_total = ? WHERE id_emprestimo = ?";
+        try ( Connection connection = ConexaoDB.getConnection();  PreparedStatement ps = connection.prepareStatement(sqlUpdate)) {
 
             ps.setInt(1, emprestimo.getIdAmigo());
             ps.setDate(2, emprestimo.getDataInicial());
@@ -94,9 +106,7 @@ public class EmprestimoDAO {
     public boolean removerEmprestimo(int idEmprestimo) {
         String sqlDeleteEmprestimo = "DELETE FROM emprestimos WHERE id_emprestimo = ?";
         String sqlDeleteFerramentas = "DELETE FROM ferramentas_emprestadas WHERE id_emprestimo = ?";
-        try (Connection connection = ConexaoDB.getConnection();
-             PreparedStatement psDeleteFerramentas = connection.prepareStatement(sqlDeleteFerramentas);
-             PreparedStatement psDeleteEmprestimo = connection.prepareStatement(sqlDeleteEmprestimo)) {
+        try ( Connection connection = ConexaoDB.getConnection();  PreparedStatement psDeleteFerramentas = connection.prepareStatement(sqlDeleteFerramentas);  PreparedStatement psDeleteEmprestimo = connection.prepareStatement(sqlDeleteEmprestimo)) {
 
             connection.setAutoCommit(false);
 
@@ -119,12 +129,10 @@ public class EmprestimoDAO {
         }
     }
 
-    public List<Emprestimo> listarEmprestimos() {
+    public ArrayList<Emprestimo> listarEmprestimos() {
         String sqlSelectAll = "SELECT * FROM emprestimos";
-        List<Emprestimo> emprestimos = new ArrayList<>();
-        try (Connection connection = ConexaoDB.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sqlSelectAll)) {
+        ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+        try ( Connection connection = ConexaoDB.getConnection();  Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sqlSelectAll)) {
 
             while (resultSet.next()) {
                 Emprestimo emprestimo = new Emprestimo();
@@ -133,6 +141,7 @@ public class EmprestimoDAO {
                 emprestimo.setDataInicial(resultSet.getDate("data_emprestimo"));
                 emprestimo.setDataDevolucao(resultSet.getDate("data_devolucao"));
                 emprestimo.setStatus(SituacaoEmprestimo.values()[resultSet.getInt("status") - 1]);
+                emprestimo.setCustoTotal(resultSet.getDouble("custo_total"));
                 emprestimos.add(emprestimo);
             }
         } catch (SQLException e) {
@@ -146,9 +155,7 @@ public class EmprestimoDAO {
         String sqlFerramentas = "SELECT f.* FROM ferramentas_emprestadas fe INNER JOIN ferramentas f ON fe.id_ferramenta = f.id_ferramenta WHERE fe.id_emprestimo = ?";
         Emprestimo emprestimo = null;
 
-        try (Connection connection = ConexaoDB.getConnection();
-             PreparedStatement psEmprestimo = connection.prepareStatement(sqlEmprestimo);
-             PreparedStatement psFerramentas = connection.prepareStatement(sqlFerramentas)) {
+        try ( Connection connection = ConexaoDB.getConnection();  PreparedStatement psEmprestimo = connection.prepareStatement(sqlEmprestimo);  PreparedStatement psFerramentas = connection.prepareStatement(sqlFerramentas)) {
 
             psEmprestimo.setInt(1, id);
             ResultSet rsEmprestimo = psEmprestimo.executeQuery();
@@ -160,6 +167,7 @@ public class EmprestimoDAO {
                 emprestimo.setDataInicial(rsEmprestimo.getDate("data_emprestimo"));
                 emprestimo.setDataDevolucao(rsEmprestimo.getDate("data_devolucao"));
                 emprestimo.setStatus(SituacaoEmprestimo.values()[rsEmprestimo.getInt("status") - 1]);
+                emprestimo.setCustoTotal(rsEmprestimo.getDouble("custo_total"));
 
                 psFerramentas.setInt(1, id);
                 ResultSet rsFerramentas = psFerramentas.executeQuery();
@@ -182,7 +190,7 @@ public class EmprestimoDAO {
     }
 
     private void executarBatch(Connection connection, String sql, List<Ferramenta> ferramentas, boolean status) throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
             for (Ferramenta ferramenta : ferramentas) {
                 ps.setBoolean(1, status);
                 ps.setInt(2, ferramenta.getId());
