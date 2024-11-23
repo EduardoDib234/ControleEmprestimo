@@ -178,5 +178,21 @@ public class AmigoDAO {
         }
         return objeto; // Retorna o objeto Amigo com os dados carregados
     }
+        public String buscarNomeAmigoPorId(int IdAmigo) throws SQLException {
+        String nomeAmigo = null;
+        String sql = "SELECT nome_amigo FROM amigos WHERE id_amigo = ?";
+
+        // Obtendo a conexão
+        try ( Connection connection = ConexaoDB.getConnection();
+             PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, IdAmigo);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    nomeAmigo = rs.getString("nome_amigo");
+                }
+            }
+        }
+        return nomeAmigo;
+    }
 
 }

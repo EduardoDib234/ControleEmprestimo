@@ -2,6 +2,7 @@ package dao;
 
 import model.Ferramenta;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,9 +13,22 @@ public class FerramentaDAO {
 
     // Lista estática para armazenar objetos do tipo Ferramenta
     public static ArrayList<Ferramenta> MinhaLista = new ArrayList<>();
+    private static FerramentaDAO instance;   // Instância única da classe
+    private Connection connection;
 
     // Construtor padrão da classe FerramentaDAO
     public FerramentaDAO() {
+
+    }
+
+    public static FerramentaDAO getInstance() {
+        if (instance == null) {
+            // Se a instância não existir, cria uma nova
+            instance = new FerramentaDAO();
+
+        }
+        return instance;
+
     }
 
     /**
@@ -29,7 +43,7 @@ public class FerramentaDAO {
             Connection conexao = ConexaoDB.getConnection();
             if (conexao != null) {
                 // Cria um Statement para executar a consulta SQL
-                try (Statement stmt = conexao.createStatement()) {
+                try ( Statement stmt = conexao.createStatement()) {
                     ResultSet res = stmt.executeQuery("SELECT MAX(id_ferramenta) AS id_ferramenta FROM ferramentas");
                     // Verifica se há resultado e armazena o valor do maior ID
                     if (res.next()) {
@@ -44,8 +58,8 @@ public class FerramentaDAO {
     }
 
     /**
-     * Método para recuperar todos os registros da tabela "ferramentas" e atualiza a
-     * lista "MinhaLista" com os objetos recuperados.
+     * Método para recuperar todos os registros da tabela "ferramentas" e
+     * atualiza a lista "MinhaLista" com os objetos recuperados.
      *
      * @return ArrayList contendo todos os objetos Ferramenta.
      */
@@ -54,7 +68,7 @@ public class FerramentaDAO {
         try {
             Connection conexao = ConexaoDB.getConnection();
             if (conexao != null) {
-                try (Statement stmt = conexao.createStatement()) {
+                try ( Statement stmt = conexao.createStatement()) {
                     ResultSet resposta = stmt.executeQuery("SELECT * FROM ferramentas");
                     // Itera sobre os resultados e cria objetos Ferramenta
                     while (resposta.next()) {
@@ -86,7 +100,7 @@ public class FerramentaDAO {
         try {
             Connection conexao = ConexaoDB.getConnection();
             if (conexao != null) {
-                try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+                try ( PreparedStatement stmt = conexao.prepareStatement(sql)) {
                     // Configure os valores dos placeholders na ordem correta
                     stmt.setInt(1, objeto.getId());
                     stmt.setString(2, objeto.getNome());
@@ -111,7 +125,7 @@ public class FerramentaDAO {
      */
     public boolean deletaFerramentaBD(int id) {
         String sql = "DELETE FROM ferramentas WHERE id_ferramenta = ?";
-        try (Connection conexao = ConexaoDB.getConnection(); PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try ( Connection conexao = ConexaoDB.getConnection();  PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id); // Configura o parâmetro do ID
             int linhasAfetadas = stmt.executeUpdate(); // Executa o comando de deleção
 
@@ -132,13 +146,13 @@ public class FerramentaDAO {
      */
     public boolean atualizarFerramenta(Ferramenta objeto) {
         String sql = "UPDATE ferramentas SET nome_ferramentas = ?, marca = ?, custo = ?, status = ? WHERE id_ferramenta = ?";
-        try (Connection conexao = ConexaoDB.getConnection(); PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try ( Connection conexao = ConexaoDB.getConnection();  PreparedStatement stmt = conexao.prepareStatement(sql)) {
             // Configura os parâmetros para a consulta
-            stmt.setString(1, objeto.getNome());  
+            stmt.setString(1, objeto.getNome());
             stmt.setString(2, objeto.getMarca());
             stmt.setDouble(3, objeto.getCusto());
             stmt.setInt(4, objeto.getStatus());
-            stmt.setInt(5, objeto.getId());        
+            stmt.setInt(5, objeto.getId());
 
             // Executa a atualização e verifica se houve alteração
             int linhasAfetadas = stmt.executeUpdate();
@@ -150,7 +164,8 @@ public class FerramentaDAO {
     }
 
     /**
-     * Método para carregar os dados de uma ferramenta específica a partir do ID.
+     * Método para carregar os dados de uma ferramenta específica a partir do
+     * ID.
      *
      * @param id ID da ferramenta a ser carregada.
      * @return Objeto Ferramenta com os dados carregados do banco.
@@ -158,10 +173,10 @@ public class FerramentaDAO {
     public Ferramenta carregaFerramenta(int id) {
         Ferramenta objeto = new Ferramenta(); // Cria um objeto Ferramenta vazio
         objeto.setId(id); // Define o ID no objeto
-        try (Connection conexao = ConexaoDB.getConnection()) {
+        try ( Connection conexao = ConexaoDB.getConnection()) {
             if (conexao != null) {
                 String sql = "SELECT * FROM ferramentas WHERE id_ferramenta = ?";
-                try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+                try ( PreparedStatement stmt = conexao.prepareStatement(sql)) {
                     stmt.setInt(1, id); // Define o parâmetro de ID
                     ResultSet resposta = stmt.executeQuery(); // Executa a consulta
 
@@ -179,5 +194,55 @@ public class FerramentaDAO {
             throw new RuntimeException(erro); // Lança a exceção para o método chamar o erro
         }
         return objeto; // Retorna o objeto Ferramenta com os dados carregados
+    }
+
+    public boolean devolverFerramenta(int idEmprestimo, int idFerramenta) throws SQLException {
+        String sql = "UPDATE ferramentas_emprestadas SET devolvido = TRUE WHERE id_emprestimo = ? AND id_ferramenta = ?";
+        try ( PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, idEmprestimo);
+            stmt.setInt(2, idFerramenta);
+            int linhasAfetadas = stmt.executeUpdate();
+            return linhasAfetadas > 0;
+        }
+    }
+
+    public boolean atualizarStatusFerramenta(int idFerramenta, int status) throws SQLException {
+        String sql = "UPDATE ferramentas SET status = ? WHERE id = ?";
+        try ( Connection conexao = ConexaoDB.getConnection()) {
+
+            try ( PreparedStatement stmt = conexao.prepareStatement(sql)) {
+                stmt.setInt(1, status);
+                stmt.setInt(2, idFerramenta);
+
+                int linhasAfetadas = stmt.executeUpdate();
+                return linhasAfetadas > 0; // Retorna true se a atualização foi bem-sucedida
+            }
+        }
+    }
+
+    public ArrayList<Integer> buscarFerramentasPorEmprestimo(int idEmprestimo) throws SQLException {
+        // Lista para armazenar os IDs das ferramentas associadas ao empréstimo
+        ArrayList<Integer> ferramentas = new ArrayList<>();
+
+        // Consulta SQL para buscar todas as ferramentas associadas ao empréstimo
+        String sql = "SELECT id_ferramenta FROM ferramentas_emprestadas WHERE id_emprestimo = ?";
+
+        // Tentativa de obter a conexão e executar a consulta
+        try ( Connection conexao = ConexaoDB.getConnection(); // Abre a conexão com o banco
+                  PreparedStatement stmt = conexao.prepareStatement(sql)) { // Prepara a consulta
+
+            stmt.setInt(1, idEmprestimo); // Passa o id do empréstimo como parâmetro na consulta
+
+            try ( ResultSet rs = stmt.executeQuery()) { // Executa a consulta e obtém o resultado
+                // Itera sobre o conjunto de resultados (ResultSet)
+                while (rs.next()) {
+                    // Adiciona cada id de ferramenta encontrado à lista
+                    ferramentas.add(rs.getInt("id_ferramenta"));
+                }
+            }
+        }
+
+        // Retorna a lista com os IDs das ferramentas
+        return ferramentas;
     }
 }

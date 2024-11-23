@@ -10,6 +10,7 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 
 public class Emprestimo {
+
     private int idEmprestimo;
     private int idAmigo;
     private double custoTotal;
@@ -63,7 +64,7 @@ public class Emprestimo {
     public void setIdAmigo(int idAmigo) {
         this.idAmigo = idAmigo;
     }
-    
+
     public double getCustoTotal() {
         return custoTotal;
     }
@@ -124,14 +125,13 @@ public class Emprestimo {
         return dao.listarEmprestimos();
     }
 
-public boolean inserirEmprestimo(int idAmigo, double custoTotal, List<Ferramenta> ferramentasSelecionadas, Date dataInicial, Date dataDevolucao) {
-    // Cria o objeto de Emprestimo
-    Emprestimo objeto = new Emprestimo(idAmigo, custoTotal, dataInicial, dataDevolucao, SituacaoEmprestimo.ABERTO, ferramentasSelecionadas);
+    public boolean inserirEmprestimo(int idAmigo, double custoTotal, List<Ferramenta> ferramentasSelecionadas, Date dataInicial, Date dataDevolucao) {
+        // Cria o objeto de Emprestimo
+        Emprestimo objeto = new Emprestimo(idAmigo, custoTotal, dataInicial, dataDevolucao, SituacaoEmprestimo.ABERTO, ferramentasSelecionadas);
 
-    // Chama o DAO para inserir o empréstimo e as ferramentas
-    return dao.inserirEmprestimo(objeto);
-}
-
+        // Chama o DAO para inserir o empréstimo e as ferramentas
+        return dao.inserirEmprestimo(objeto);
+    }
 
     public int qtdFerramentasEmprestimo(int id) {
         Emprestimo emprestimo = dao.buscarEmprestimoPorId(id);
@@ -175,7 +175,7 @@ public boolean inserirEmprestimo(int idAmigo, double custoTotal, List<Ferramenta
     }
 
     public boolean removerEmprestimosPorAmigo(int idAmigo) {
-        
+
         List<Emprestimo> emprestimos = listarEmprestimos();
         boolean sucesso = true;
         for (Emprestimo emprestimo : emprestimos) {
@@ -185,4 +185,17 @@ public boolean inserirEmprestimo(int idAmigo, double custoTotal, List<Ferramenta
         }
         return sucesso;
     }
+    // Método para calcular o tempo restante
+
+    public long tempoRestante(LocalDate dataInicial, LocalDate dataDevolucao) {
+        if (dataInicial == null || dataDevolucao == null) {
+            throw new IllegalArgumentException("Datas não podem ser nulas.");
+        }
+        LocalDate hoje = LocalDate.now();
+        if (hoje.isAfter(dataDevolucao)) {
+            return 0; // Já passou da data de devolução
+        }
+        return ChronoUnit.DAYS.between(hoje, dataDevolucao);
+    }
 }
+
