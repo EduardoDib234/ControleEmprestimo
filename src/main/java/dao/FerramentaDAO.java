@@ -196,18 +196,8 @@ public class FerramentaDAO {
         return objeto; // Retorna o objeto Ferramenta com os dados carregados
     }
 
-    public boolean devolverFerramenta(int idEmprestimo, int idFerramenta) throws SQLException {
-        String sql = "UPDATE ferramentas_emprestadas SET devolvido = TRUE WHERE id_emprestimo = ? AND id_ferramenta = ?";
-        try ( PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, idEmprestimo);
-            stmt.setInt(2, idFerramenta);
-            int linhasAfetadas = stmt.executeUpdate();
-            return linhasAfetadas > 0;
-        }
-    }
-
     public boolean atualizarStatusFerramenta(int idFerramenta, int status) throws SQLException {
-        String sql = "UPDATE ferramentas SET status = ? WHERE id = ?";
+        String sql = "UPDATE ferramentas SET status = ? WHERE id_ferramenta = ?";
         try ( Connection conexao = ConexaoDB.getConnection()) {
 
             try ( PreparedStatement stmt = conexao.prepareStatement(sql)) {
