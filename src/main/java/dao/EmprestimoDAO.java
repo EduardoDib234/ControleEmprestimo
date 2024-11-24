@@ -224,7 +224,7 @@ public class EmprestimoDAO {
     }
 
     public boolean atualizarStatusEmprestimo(int idEmprestimo, int status) throws SQLException {
-        String sql = "UPDATE emprestimos SET status = ? WHERE id = ?";
+        String sql = "UPDATE emprestimos SET status = ? WHERE id_emprestimo = ?";
         try ( Connection connection = ConexaoDB.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, status);
             stmt.setInt(2, idEmprestimo);
@@ -233,16 +233,4 @@ public class EmprestimoDAO {
             return linhasAfetadas > 0; // Retorna true se a atualização foi bem-sucedida
         }
     }
-
-    public boolean atualizarStatusFerramenta(int idFerramenta, int status) throws SQLException {
-        String sql = "UPDATE ferramentas SET status = ? WHERE id = ?";
-        try ( Connection connection = ConexaoDB.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, status);
-            stmt.setInt(2, idFerramenta);
-
-            int linhasAfetadas = stmt.executeUpdate();
-            return linhasAfetadas > 0; // Retorna true se a atualização foi bem-sucedida
-        }
-    }
-
 }

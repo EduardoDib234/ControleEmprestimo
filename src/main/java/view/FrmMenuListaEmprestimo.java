@@ -274,13 +274,11 @@ if (selectedRow != -1) { // Verifica se alguma linha foi selecionada
         }
 
         // Processa cada ferramenta associada
-        for (Integer idFerramenta : ferramentasAssociadas) {
+        for (int idFerramenta : ferramentasAssociadas) {
             // Lógica para devolver a ferramenta e atualizar seu status, por exemplo
-            boolean sucessoFerramenta = ferramentaDAO.devolverFerramenta(idEmprestimo, idFerramenta);
-            if (sucessoFerramenta) {
-                // Atualiza o status da ferramenta para "disponível"
-                ferramentaDAO.atualizarStatusFerramenta(idFerramenta, 1); // 1 significa "disponível"
-            }
+            
+            // Atualiza o status da ferramenta para "disponível"
+            ferramentaDAO.atualizarStatusFerramenta(idFerramenta, 1); // 1 significa "disponível"
         }
 
         // Atualiza o status do empréstimo para "finalizado" (por exemplo, status 2)
@@ -305,11 +303,6 @@ if (selectedRow != -1) { // Verifica se alguma linha foi selecionada
             // Captura o valor da coluna da data de devolução (supondo que a data esteja na 6ª coluna, ajuste se necessário)
             String dataDevolucaoStr = this.jTemprestimo.getValueAt(this.jTemprestimo.getSelectedRow(), 5).toString();
 
-            // Captura outras colunas que você deseja armazenar (ajuste os índices conforme a tabela)
-            int idEmprestimo = Integer.parseInt(this.jTemprestimo.getValueAt(this.jTemprestimo.getSelectedRow(), 0).toString()); // Exemplo: ID do empréstimo na 1ª coluna
-            int idFerramenta = Integer.parseInt(this.jTemprestimo.getValueAt(this.jTemprestimo.getSelectedRow(), 2).toString()); // Exemplo: ID da ferramenta na 3ª coluna
-            String nomeAmigo = this.jTemprestimo.getValueAt(this.jTemprestimo.getSelectedRow(), 3).toString(); // Exemplo: nome do amigo na 4ª coluna
-
             try {
                 // Converte a string para uma data
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); // Formato da data no banco de dados
@@ -317,12 +310,6 @@ if (selectedRow != -1) { // Verifica se alguma linha foi selecionada
 
                 // Preenche o jDateChooser com a data
                 this.jDateChooser.setDate(dataDevolucao);
-
-                // Aqui você pode armazenar as variáveis, como idEmprestimo, idFerramenta e nomeAmigo, em algum local
-                // Exemplo: mostrando em campos de texto ou variáveis
-                System.out.println("ID do Empréstimo: " + idEmprestimo);
-                System.out.println("ID da Ferramenta: " + idFerramenta);
-                System.out.println("Nome do Amigo: " + nomeAmigo);
 
             } catch (ParseException e) {
                 // Trate o erro de conversão de data
