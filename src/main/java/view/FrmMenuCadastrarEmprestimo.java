@@ -5,6 +5,7 @@ import model.Amigo;
 import model.Ferramenta;
 import dao.AmigoDAO;
 import dao.FerramentaDAO;
+import dao.EmprestimoDAO;
 import java.util.*;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +15,7 @@ public class FrmMenuCadastrarEmprestimo extends javax.swing.JFrame {
     Emprestimo emprestimo = new Emprestimo();
     private AmigoDAO amigoDAO;
     private FerramentaDAO ferramentaDAO;
+    private EmprestimoDAO emprestimoDAO;
     private ArrayList<Ferramenta> listFerramentas;
     private ArrayList<Ferramenta> listFerramentasSelecionadas;
 
@@ -23,6 +25,7 @@ public class FrmMenuCadastrarEmprestimo extends javax.swing.JFrame {
         this.carregaTabelaAmigo();
         this.ferramentaDAO = new FerramentaDAO();
         this.carregaTabelaFerramenta1();
+        this.emprestimoDAO = EmprestimoDAO.getInstance();
         this.listFerramentas = new ArrayList<>();
         this.listFerramentasSelecionadas = new ArrayList<>();
     }
@@ -305,6 +308,10 @@ public class FrmMenuCadastrarEmprestimo extends javax.swing.JFrame {
         if (listFerramentasSelecionadas.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor, selecione pelo menos uma ferramenta!");
             return;
+        }
+        
+        if(emprestimoDAO.verificaExisteEmprestimo(Integer.parseInt(jTIdamigo.getText()))){
+            JOptionPane.showMessageDialog(null, "Esse amigo possui um ou mais empréstimos!");
         }
 
         // Define automaticamente a data de empréstimo para o dia atual
