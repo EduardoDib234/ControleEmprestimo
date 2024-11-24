@@ -13,6 +13,7 @@ import dao.FerramentaDAO;
 import java.sql.SQLException;
 import model.Emprestimo;
 import dao.EmprestimoDAO;
+import dao.RelatorioDAO;
 
 /**
  *
@@ -23,6 +24,7 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
     private AmigoDAO amigoDAO;
     private FerramentaDAO ferramentaDAO;
     private EmprestimoDAO emprestimoDAO;
+    private RelatorioDAO relatorioDAO;
     
     /**
      * Creates new form FrmMenuRelatorio
@@ -33,9 +35,14 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
         this.ferramentaDAO = new FerramentaDAO();
         this.emprestimoDAO = EmprestimoDAO.getInstance();
         this.carregaTabelaFerramentaDisponivel();
-        this.carregaTabelaFerramentaIndisponivel();
+        this.relatorioDAO = new RelatorioDAO();
+        this.carregaTabelaFerramentaindisponivel();
+        this.carregaTabelaFerramentaReparo();
+        this.carregaTabelaEmprestimoAtivo();
         this.carregaTabelaEmprestimo();
-        this.procuraAmigoMaisEmprestimo();
+        this.carregaTabelaAmigoNuncaDevolveu();
+        this.carregaTabelaAmigosMaisEmprestimo();
+        this.carregaValorTotalFerramentas();
     }
 
     /**
@@ -47,34 +54,44 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel3 = new javax.swing.JLabel();
+        jButton10 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jTCustoTotal = new javax.swing.JTextField();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTFerramentasdisponivel = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTFerramentaindisponivel = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTFerramentaindisponivel1 = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTemprestimo1 = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        jTFAmigoquemaispegou = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTTopAmigo = new javax.swing.JTable();
+        jTFerramentareparo = new javax.swing.JTable();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTAmigosinadimplente = new javax.swing.JTable();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jTFerramentaindisponivel2 = new javax.swing.JTable();
-        jLabel6 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTTopAmigo = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jTabbedPane3 = new javax.swing.JTabbedPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTemprestimoativo = new javax.swing.JTable();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTemprestimo = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel3.setText("Ferramentas:");
+
+        jButton10.setText("Sair");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Custo de Todas as Ferramentas: ");
+
+        jTCustoTotal.setEditable(false);
 
         jTFerramentasdisponivel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -87,13 +104,14 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
                 "ID", "Nome", "Marca", "Custo", "Status"
             }
         ));
+        jTFerramentasdisponivel.setEnabled(false);
         jTFerramentasdisponivel.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jTFerramentasdisponivelAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jTFerramentasdisponivel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -103,11 +121,9 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTFerramentasdisponivel);
 
-        jLabel1.setText("Ferramenta disponivel:");
+        jTabbedPane1.addTab("Ferramentas Disponíveis", jScrollPane1);
 
-        jLabel2.setText("Ferramenta insponivel:");
-
-        jTFerramentaindisponivel1.setModel(new javax.swing.table.DefaultTableModel(
+        jTFerramentaindisponivel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -118,25 +134,92 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
                 "ID", "Nome", "Marca", "Custo", "Status"
             }
         ));
-        jTFerramentaindisponivel1.addAncestorListener(new javax.swing.event.AncestorListener() {
+        jTFerramentaindisponivel.setEnabled(false);
+        jTFerramentaindisponivel.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                jTFerramentaindisponivel1AncestorAdded(evt);
+                jTFerramentaindisponivelAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
+        });
+        jTFerramentaindisponivel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTFerramentaindisponivelMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(jTFerramentaindisponivel);
+
+        jTabbedPane1.addTab("Ferramnetas Indisponíveis", jScrollPane7);
+
+        jTFerramentareparo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nome", "Marca", "Custo", "Status"
+            }
+        ));
+        jTFerramentareparo.setEnabled(false);
+        jTFerramentareparo.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
-        });
-        jTFerramentaindisponivel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTFerramentaindisponivel1MouseClicked(evt);
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jTFerramentareparoAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
-        jScrollPane3.setViewportView(jTFerramentaindisponivel1);
+        jTFerramentareparo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTFerramentareparoMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jTFerramentareparo);
 
-        jLabel3.setText("Emprestimos:");
+        jTabbedPane1.addTab("Ferramentas em manutenção", jScrollPane3);
 
-        jTemprestimo1.setModel(new javax.swing.table.DefaultTableModel(
+        jTAmigosinadimplente.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nome", "Telefone", "Score"
+            }
+        ));
+        jTAmigosinadimplente.setEnabled(false);
+        jScrollPane6.setViewportView(jTAmigosinadimplente);
+
+        jTabbedPane2.addTab("Amigos que nunca devolveu", jScrollPane6);
+
+        jTTopAmigo.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nome", "Telefone", "Score", "Qtd"
+            }
+        ));
+        jTTopAmigo.setEnabled(false);
+        jScrollPane4.setViewportView(jTTopAmigo);
+
+        jTabbedPane2.addTab("Amigos que mais pegou empréstimo", jScrollPane4);
+
+        jLabel4.setText("Empréstimos:");
+
+        jLabel1.setText("Amigos:");
+
+        jTemprestimoativo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -150,121 +233,41 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
                 "id", "amigo", "qtd ferramentas", "custo", "data_emprestimo", "data_devolução", "dias restantes", "status"
             }
         ));
-        jTemprestimo1.setToolTipText("");
-        jTemprestimo1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTemprestimoativo.setToolTipText("");
+        jTemprestimoativo.setEnabled(false);
+        jTemprestimoativo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTemprestimo1MouseClicked(evt);
+                jTemprestimoativoMouseClicked(evt);
             }
         });
-        jScrollPane5.setViewportView(jTemprestimo1);
+        jScrollPane5.setViewportView(jTemprestimoativo);
 
-        jLabel4.setText("Amigo que mais pegou emprestimo:");
+        jTabbedPane3.addTab("Empréstimos Ativos", jScrollPane5);
 
-        jLabel5.setText("Amigo que nunca devolveu:");
-
-        jButton3.setText("Emprestimos");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton5.setText("Cadastrar emprestimos");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("Amigos");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
-        jButton7.setText("Cadastrar amgos");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setText("Ver emprestimos");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        jButton9.setText("Ver amigos");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-
-        jButton10.setText("Sair");
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-
-        jTTopAmigo.setModel(new javax.swing.table.DefaultTableModel(
+        jTemprestimo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nome", "Telefone", "Score"
+                "id", "amigo", "qtd ferramentas", "custo", "data_emprestimo", "data_devolução", "dias restantes", "status"
             }
         ));
-        jScrollPane4.setViewportView(jTTopAmigo);
-
-        jTAmigosinadimplente.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "ID", "Nome", "Telefone", "Score"
-            }
-        ));
-        jScrollPane6.setViewportView(jTAmigosinadimplente);
-
-        jTFerramentaindisponivel2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "Nome", "Marca", "Custo", "Status"
-            }
-        ));
-        jTFerramentaindisponivel2.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                jTFerramentaindisponivel2AncestorAdded(evt);
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        jTFerramentaindisponivel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTemprestimo.setToolTipText("");
+        jTemprestimo.setEnabled(false);
+        jTemprestimo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTFerramentaindisponivel2MouseClicked(evt);
+                jTemprestimoMouseClicked(evt);
             }
         });
-        jScrollPane7.setViewportView(jTFerramentaindisponivel2);
+        jScrollPane8.setViewportView(jTemprestimo);
 
-        jLabel6.setText("Ferramenta em manutençao:");
+        jTabbedPane3.addTab("Todos os Empréstimos", jScrollPane8);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -275,102 +278,46 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel1))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane6)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3)
-                                            .addComponent(jLabel5))
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(17, 17, 17))
+                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 871, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addContainerGap(264, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 878, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(39, 39, 39)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39)
-                                .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTFAmigoquemaispegou, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTCustoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 848, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTFAmigoquemaispegou, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton10))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel7)
+                    .addComponent(jTCustoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton10)
+                .addGap(71, 71, 71))
         );
 
         pack();
@@ -384,56 +331,40 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTFerramentasdisponivelMouseClicked
 
-    private void jTFerramentaindisponivel1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTFerramentaindisponivel1AncestorAdded
+    private void jTFerramentareparoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTFerramentareparoAncestorAdded
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTFerramentaindisponivel1AncestorAdded
+    }//GEN-LAST:event_jTFerramentareparoAncestorAdded
 
-    private void jTFerramentaindisponivel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFerramentaindisponivel1MouseClicked
+    private void jTFerramentareparoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFerramentareparoMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTFerramentaindisponivel1MouseClicked
+    }//GEN-LAST:event_jTFerramentareparoMouseClicked
 
-    private void jTemprestimo1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTemprestimo1MouseClicked
+    private void jTemprestimoativoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTemprestimoativoMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTemprestimo1MouseClicked
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        FrmMenuCadastrarEmprestimo objeto = new FrmMenuCadastrarEmprestimo();
-        objeto.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_jTemprestimoativoMouseClicked
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+        FrmMenuPrincipal objeto = new FrmMenuPrincipal();
+        objeto.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void jTFerramentaindisponivel2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTFerramentaindisponivel2AncestorAdded
+    private void jTFerramentaindisponivelAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTFerramentaindisponivelAncestorAdded
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTFerramentaindisponivel2AncestorAdded
+    }//GEN-LAST:event_jTFerramentaindisponivelAncestorAdded
 
-    private void jTFerramentaindisponivel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFerramentaindisponivel2MouseClicked
+    private void jTFerramentaindisponivelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFerramentaindisponivelMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTFerramentaindisponivel2MouseClicked
+    }//GEN-LAST:event_jTFerramentaindisponivelMouseClicked
 
+    private void jTemprestimoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTemprestimoMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTemprestimoMouseClicked
+
+    public void carregaValorTotalFerramentas(){
+        this.jTCustoTotal.setText(String.valueOf(relatorioDAO.custoTotal()));
+    }
+    
     public void carregaTabelaFerramentaDisponivel() {
         DefaultTableModel modelo = (DefaultTableModel) this.jTFerramentasdisponivel.getModel();
         modelo.setNumRows(0);  // Limpa a tabela antes de recarregar
@@ -455,8 +386,8 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
         }
     }
     
-    public void carregaTabelaFerramentaIndisponivel() {
-        DefaultTableModel modelo = (DefaultTableModel) this.jTFerramentaindisponivel1.getModel();
+    public void carregaTabelaFerramentaindisponivel() {
+        DefaultTableModel modelo = (DefaultTableModel) this.jTFerramentaindisponivel.getModel();
         modelo.setNumRows(0);  // Limpa a tabela antes de recarregar
 
         ArrayList<Ferramenta> minhalista = ferramentaDAO.getMinhaLista();  // Lista de Ferramentas
@@ -476,8 +407,104 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
         }
     }
     
+    public void carregaTabelaFerramentaReparo() {
+        DefaultTableModel modelo = (DefaultTableModel) this.jTFerramentareparo.getModel();
+        modelo.setNumRows(0);  // Limpa a tabela antes de recarregar
+
+        ArrayList<Ferramenta> minhalista = ferramentaDAO.getMinhaLista();  // Lista de Ferramentas
+
+        String change;
+        for (Ferramenta a : minhalista) {
+            if (a.getStatus() == 2) {
+                change = "Reparo";
+                modelo.addRow(new Object[]{
+                    a.getId(),
+                    a.getNome(),
+                    a.getMarca(),
+                    a.getCusto(),
+                    change
+                });
+            }
+        }
+    }
+    
+    public void carregaTabelaAmigosMaisEmprestimo(){
+        DefaultTableModel modelo = (DefaultTableModel) this.jTTopAmigo.getModel();
+        modelo.setNumRows(0);  // Limpa a tabela antes de recarregar
+        
+        ArrayList<int[]> idEQtd = relatorioDAO.buscaAmigosMaisEmprestimo();
+        
+        for(int[] arr : idEQtd){
+            Amigo amigo = amigoDAO.carregaAmigo(arr[0]);
+            modelo.addRow(new Object[]{
+                amigo.getId(),
+                amigo.getNome(),
+                amigo.getTelefone(),
+                amigo.getScore(),
+                arr[1]});
+        }
+    }
+    
+    public void carregaTabelaAmigoNuncaDevolveu(){
+        DefaultTableModel modelo = (DefaultTableModel) this.jTAmigosinadimplente.getModel();
+        modelo.setNumRows(0);  // Limpa a tabela antes de recarregar
+        
+        ArrayList<Amigo> amigosInadiplentes = relatorioDAO.amigosNuncaDevolveram();
+        
+        for (Amigo amigo : amigosInadiplentes) {
+            modelo.addRow(new Object[]{
+                amigo.getId(),
+                amigo.getNome(),
+                amigo.getTelefone(),
+                amigo.getScore(),});
+        }
+    }
+    
+    public void carregaTabelaEmprestimoAtivo() {
+        DefaultTableModel modelo = (DefaultTableModel) this.jTemprestimoativo.getModel();
+        modelo.setNumRows(0); // Limpa a tabela antes de preencher
+
+        // Obtém a lista de empréstimos do DAO
+        ArrayList<Emprestimo> minhalista = emprestimoDAO.listarEmprestimos();
+
+        for (Emprestimo emprestimo : minhalista) {
+            double valorTotal = emprestimo.calcularValorTotal();
+            String situacaoEmprestimo = "Em aberto";
+
+            // Cálculo do tempo restante
+            long diasRestantes = emprestimo.tempoRestante(
+                    emprestimo.getDataInicial().toLocalDate(),
+                    emprestimo.getDataDevolucao().toLocalDate()
+            );
+
+            String nomeAmigo = "";
+            try {
+                // Tenta obter o nome do amigo
+                nomeAmigo = emprestimoDAO.buscarNomeAmigoPorId(emprestimo.getIdAmigo());
+            } catch (SQLException e) {
+                // Caso ocorra um erro na consulta ao banco, exibe um erro no console
+                e.printStackTrace(); // Exibe o stack trace do erro
+                nomeAmigo = "Erro ao buscar nome"; // Mensagem padrão caso haja erro
+            }
+
+            // Adiciona os dados na tabela
+            if(emprestimo.getStatus().getCodigo() == 1){
+                modelo.addRow(new Object[]{
+                    emprestimo.getIdEmprestimo(),
+                    nomeAmigo,
+                    emprestimo.qtdFerramentasEmprestimo(emprestimo.getIdEmprestimo()),
+                    emprestimo.getCustoTotal(),
+                    emprestimo.getDataInicial(),
+                    emprestimo.getDataDevolucao(),
+                    diasRestantes,
+                    situacaoEmprestimo
+                });
+            }
+        }
+    }
+    
     public void carregaTabelaEmprestimo() {
-        DefaultTableModel modelo = (DefaultTableModel) this.jTemprestimo1.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) this.jTemprestimo.getModel();
         modelo.setNumRows(0); // Limpa a tabela antes de preencher
 
         // Obtém a lista de empréstimos do DAO
@@ -533,36 +560,6 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
         }
     }
     
-    private void procuraAmigoMaisEmprestimo(){
-        ArrayList<Emprestimo> emprestimos = emprestimoDAO.listarEmprestimos();
-        ArrayList<Amigo> amigos = amigoDAO.getMinhaLista();
-        ArrayList<Integer> emprestimoPorAmigo = new ArrayList<>();
-        
-        for(int i = 0; i < amigos.size(); i++){
-            emprestimoPorAmigo.add(0);
-            for(int j = 0; j < emprestimos.size(); j++){
-                if(amigos.get(i).getId() == emprestimos.get(j).getIdAmigo()){
-                    emprestimoPorAmigo.set(i, emprestimoPorAmigo.get(i)+1);
-                }
-            }
-        }
-        
-        int maior = 0;
-        for(int i : emprestimoPorAmigo){
-            if(i > maior){
-                maior = i;
-            }
-        }
-        
-        int index = emprestimoPorAmigo.indexOf(maior);
-        
-        jTFAmigoquemaispegou.setText(amigos.get(index).getNome());
-    }
-    
-    private void nuncaDevolveu(){
-        
-    }
-    
     /**
      * @param args the command line arguments
      */
@@ -600,30 +597,27 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTable jTAmigosinadimplente;
-    private javax.swing.JTextField jTFAmigoquemaispegou;
-    private javax.swing.JTable jTFerramentaindisponivel1;
-    private javax.swing.JTable jTFerramentaindisponivel2;
+    private javax.swing.JTextField jTCustoTotal;
+    private javax.swing.JTable jTFerramentaindisponivel;
+    private javax.swing.JTable jTFerramentareparo;
     private javax.swing.JTable jTFerramentasdisponivel;
     private javax.swing.JTable jTTopAmigo;
-    private javax.swing.JTable jTemprestimo1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane jTabbedPane3;
+    private javax.swing.JTable jTemprestimo;
+    private javax.swing.JTable jTemprestimoativo;
     // End of variables declaration//GEN-END:variables
 }
