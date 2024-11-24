@@ -39,6 +39,7 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jBCancelar = new javax.swing.JButton();
         jBRemover = new javax.swing.JButton();
+        jBReparo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lista de Ferramentas");
@@ -55,12 +56,12 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
             }
         ));
         jTFerramentas.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jTFerramentasAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jTFerramentas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -126,6 +127,13 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
             }
         });
 
+        jBReparo.setText("Reparo");
+        jBReparo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBReparoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,34 +147,37 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
                         .addComponent(jLabel5)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jLabel7)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jBCancelar)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jBRemover)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jBAtualizar))
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel4)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel6)
+                                                .addComponent(jLabel7)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jTId, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTNome, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jTCusto, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(3, 3, 3))))
+                                            .addComponent(jTStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(142, 142, 142)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(142, 142, 142)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(32, 32, 32)
+                                .addComponent(jBCancelar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBRemover)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBAtualizar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBReparo)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -208,7 +219,8 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jBAtualizar)
                             .addComponent(jBCancelar)
-                            .addComponent(jBRemover))
+                            .addComponent(jBRemover)
+                            .addComponent(jBReparo))
                         .addGap(0, 14, Short.MAX_VALUE))))
         );
 
@@ -359,6 +371,10 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
     private void jTFerramentasAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTFerramentasAncestorAdded
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFerramentasAncestorAdded
+
+    private void jBReparoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBReparoActionPerformed
+        
+    }//GEN-LAST:event_jBReparoActionPerformed
     public void carregaTabela() {
         DefaultTableModel modelo = (DefaultTableModel) this.jTFerramentas.getModel();
         modelo.setNumRows(0);  // Limpa a tabela antes de recarregar
@@ -374,9 +390,12 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
         for (Ferramenta a : minhalista) {
             if (a.getStatus() == 1) {
                 change = "Disponível";
-            } else {
+            } else if(a.getStatus() == 0){
                 change = "Indisponível";
-            }
+            } else { 
+                change = "Reparo";
+
+                    }
             modelo.addRow(new Object[]{                
                 a.getId(),
                 a.getNome(),
@@ -399,6 +418,7 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
     private javax.swing.JButton jBAtualizar;
     private javax.swing.JButton jBCancelar;
     private javax.swing.JButton jBRemover;
+    private javax.swing.JButton jBReparo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
