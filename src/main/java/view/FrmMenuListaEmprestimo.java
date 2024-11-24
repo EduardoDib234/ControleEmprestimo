@@ -366,7 +366,66 @@ if (selectedRow != -1) { // Verifica se alguma linha foi selecionada
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
-      
+try {
+    // Verifica se há pelo menos uma linha selecionada na tabela
+    int[] linhasSelecionadas = jTemprestimo.getSelectedRows();
+    if (linhasSelecionadas.length == 0) {
+        JOptionPane.showMessageDialog(this, "Selecione um ou mais empréstimos para excluir.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    // Confirmação do usuário
+    int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir os empréstimos selecionados?",
+                                                    "Confirmação", JOptionPane.YES_NO_OPTION);
+    if (confirmacao == JOptionPane.YES_OPTION) {
+        boolean sucessoTotal = true;
+
+        // Itera sobre as linhas selecionadas
+        for (int linha : linhasSelecionadas) {
+            // Obtém o ID do empréstimo da tabela (assumindo que o ID está na primeira coluna)
+            int idEmprestimo = (int) jTemprestimo.getValueAt(linha, 0);
+
+            // Recupera os IDs das ferramentas associadas ao empréstimo
+        ArrayList<Integer> ferramentasAssociadas = ferramentaDAO.buscarFerramentasPorEmprestimo(idEmprestimo);
+
+            if (ferramentasAssociadas != null && !ferramentasAssociadas.isEmpty()) {
+                // Atualiza o status das ferramentas para "disponível" (status = 1)
+                for (int idFerramenta : ferramentasAssociadas) {
+                    boolean statusAtualizado = FerramentaDAO.getInstance().atualizarStatusFerramenta(idFerramenta, 1); // Disponível
+
+                    // Verifica se a atualização foi bem-sucedida
+                    if (!statusAtualizado) {
+                        JOptionPane.showMessageDialog(this, "Erro ao atualizar o status da ferramenta com ID: " + idFerramenta,
+                                                      "Erro", JOptionPane.ERROR_MESSAGE);
+                        sucessoTotal = false;
+                        break; // Sai do loop de ferramentas
+                    }
+                }
+            }
+
+            // Remove o empréstimo do banco de dados
+            boolean sucesso = EmprestimoDAO.getInstance().removerEmprestimo(idEmprestimo);
+
+            if (!sucesso) {
+                JOptionPane.showMessageDialog(this, "Erro ao excluir o empréstimo com ID: " + idEmprestimo, "Erro", JOptionPane.ERROR_MESSAGE);
+                sucessoTotal = false;
+            }
+        }
+
+        if (sucessoTotal) {
+            JOptionPane.showMessageDialog(this, "Empréstimos excluídos com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            // Atualiza a tabela de empréstimos
+            carregaTabela(); // Método que recarrega os dados da tabela
+        } else {
+            JOptionPane.showMessageDialog(this, "Alguns empréstimos não foram excluídos. Verifique os detalhes.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+    e.printStackTrace();
+}
+
+
     }//GEN-LAST:event_jBExcluirActionPerformed
 
     public static void main(String args[]) {

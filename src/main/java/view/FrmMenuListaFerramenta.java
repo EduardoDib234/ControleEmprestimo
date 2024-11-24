@@ -325,46 +325,59 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
     }//GEN-LAST:event_jBAtualizarActionPerformed
 
     private void jBRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBRemoverActionPerformed
-        try {
-            int id = 0;
-            // Verifica se uma linha foi selecionada
-            if (this.jTFerramentas.getSelectedRow() == -1) {
-                throw new Exception("Primeiro selecione uma ferramenta para APAGAR.");
-            } else {
-                // Obtém o ID do amigo selecionado na tabela
-                id = Integer.parseInt(this.jTFerramentas.getValueAt(this.jTFerramentas.getSelectedRow(), 0).toString());
+try {
+    // Verifica se ao menos uma linha foi selecionada
+    int[] linhasSelecionadas = this.jTFerramentas.getSelectedRows();
+    if (linhasSelecionadas.length == 0) {
+        throw new Exception("Primeiro selecione uma ou mais ferramentas para APAGAR.");
+    }
+
+    // Confirmação do usuário para exclusão em massa
+    Object[] options = {"Sim", "Não"};
+    int resposta_usuario = JOptionPane.showOptionDialog(
+            null,
+            "Tem certeza que deseja APAGAR as ferramentas selecionadas?",
+            "Confirmação",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE,
+            null,
+            options,
+            options[0]);
+
+    // Se o usuário confirmar a exclusão
+    if (resposta_usuario == 0) {
+        boolean sucessoTotal = true;
+
+        // Itera sobre as linhas selecionadas
+        for (int linha : linhasSelecionadas) {
+            int id = Integer.parseInt(this.jTFerramentas.getValueAt(linha, 0).toString());
+
+            // Remove a ferramenta do banco de dados
+            if (!this.ferramentaDAO.deletaFerramentaBD(id)) {
+                sucessoTotal = false;
+                JOptionPane.showMessageDialog(null, "Erro ao apagar ferramenta com ID: " + id, "Erro", JOptionPane.ERROR_MESSAGE);
             }
-
-            // Confirmação do usuário para exclusão
-            Object[] options = {"Sim", "Não"};
-            int resposta_usuario = JOptionPane.showOptionDialog(
-                    null,
-                    "Tem certeza que deseja APAGAR essa ferramenta?",
-                    "Confirmação",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    options,
-                    options[0]);
-
-            // Se o usuário confirmar a exclusão
-            if (resposta_usuario == 0) {
-                if (this.ferramentaDAO.deletaFerramentaBD(id)) {
-                    // Limpa os campos da interface
-                    this.jTNome.setText("");
-                    this.jTMarca.setText("");
-                    this.jTCusto.setText("");
-                    this.jTStatus.setText("");
-                    this.jTId.setText("");
-
-                    JOptionPane.showMessageDialog(rootPane, "Ferramenta Deletada!");
-                }
-            }
-        } catch (Exception erro) {
-            JOptionPane.showMessageDialog(null, erro.getMessage());
-        } finally {
-            carregaTabela(); // Atualiza a tabela após a exclusão
         }
+
+        if (sucessoTotal) {
+            // Limpa os campos da interface
+            this.jTNome.setText("");
+            this.jTMarca.setText("");
+            this.jTCusto.setText("");
+            this.jTStatus.setText("");
+            this.jTId.setText("");
+
+            JOptionPane.showMessageDialog(rootPane, "Ferramentas deletadas com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Algumas ferramentas não foram excluídas. Verifique os detalhes.", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+} catch (Exception erro) {
+    JOptionPane.showMessageDialog(null, erro.getMessage());
+} finally {
+    carregaTabela(); // Atualiza a tabela após a exclusão
+}
+
     }//GEN-LAST:event_jBRemoverActionPerformed
 
     private void jTStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTStatusActionPerformed
