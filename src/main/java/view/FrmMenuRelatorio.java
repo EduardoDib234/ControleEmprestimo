@@ -4,17 +4,38 @@
  */
 package view;
 
+import model.Amigo;
+import dao.AmigoDAO;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import model.Ferramenta;
+import dao.FerramentaDAO;
+import java.sql.SQLException;
+import model.Emprestimo;
+import dao.EmprestimoDAO;
+
 /**
  *
  * @author Administrator
  */
 public class FrmMenuRelatorio extends javax.swing.JFrame {
 
+    private AmigoDAO amigoDAO;
+    private FerramentaDAO ferramentaDAO;
+    private EmprestimoDAO emprestimoDAO;
+    
     /**
      * Creates new form FrmMenuRelatorio
      */
     public FrmMenuRelatorio() {
         initComponents();
+        this.amigoDAO = new AmigoDAO();
+        this.ferramentaDAO = new FerramentaDAO();
+        this.emprestimoDAO = EmprestimoDAO.getInstance();
+        this.carregaTabelaFerramentaDisponivel();
+        this.carregaTabelaFerramentaIndisponivel();
+        this.carregaTabelaEmprestimo();
+        this.procuraAmigoMaisEmprestimo();
     }
 
     /**
@@ -341,6 +362,135 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton10ActionPerformed
 
+    public void carregaTabelaFerramentaDisponivel() {
+        DefaultTableModel modelo = (DefaultTableModel) this.jTFerramentasdisponivel.getModel();
+        modelo.setNumRows(0);  // Limpa a tabela antes de recarregar
+
+        ArrayList<Ferramenta> minhalista = ferramentaDAO.getMinhaLista();  // Lista de Ferramentas
+
+        String change;
+        for (Ferramenta a : minhalista) {
+            if (a.getStatus() == 1) {
+                change = "Disponível";
+                modelo.addRow(new Object[]{
+                    a.getId(),
+                    a.getNome(),
+                    a.getMarca(),
+                    a.getCusto(),
+                    change
+                });
+            }
+        }
+    }
+    
+    public void carregaTabelaFerramentaIndisponivel() {
+        DefaultTableModel modelo = (DefaultTableModel) this.jTFerramentaindisponivel1.getModel();
+        modelo.setNumRows(0);  // Limpa a tabela antes de recarregar
+
+        ArrayList<Ferramenta> minhalista = ferramentaDAO.getMinhaLista();  // Lista de Ferramentas
+
+        String change;
+        for (Ferramenta a : minhalista) {
+            if (a.getStatus() == 0) {
+                change = "Indisponível";
+                modelo.addRow(new Object[]{
+                    a.getId(),
+                    a.getNome(),
+                    a.getMarca(),
+                    a.getCusto(),
+                    change
+                });
+            }
+        }
+    }
+    
+    public void carregaTabelaEmprestimo() {
+        DefaultTableModel modelo = (DefaultTableModel) this.jTemprestimo1.getModel();
+        modelo.setNumRows(0); // Limpa a tabela antes de preencher
+
+        // Obtém a lista de empréstimos do DAO
+        ArrayList<Emprestimo> minhalista = emprestimoDAO.listarEmprestimos();
+
+        for (Emprestimo emprestimo : minhalista) {
+            double valorTotal = emprestimo.calcularValorTotal();
+            String situacaoEmprestimo;
+
+            // Define o status textual com base no código do status
+            switch (emprestimo.getStatus().getCodigo()) {
+                case 1:
+                    situacaoEmprestimo = "Em aberto";
+                    break;
+                case 2:
+                    situacaoEmprestimo = "Finalizado";
+                    break;
+                case 3:
+                    situacaoEmprestimo = "Atrasado";
+                    break;
+                default:
+                    situacaoEmprestimo = "Desconhecido";
+                    break;
+            }
+
+            // Cálculo do tempo restante
+            long diasRestantes = emprestimo.tempoRestante(
+                    emprestimo.getDataInicial().toLocalDate(),
+                    emprestimo.getDataDevolucao().toLocalDate()
+            );
+
+            String nomeAmigo = "";
+            try {
+                // Tenta obter o nome do amigo
+                nomeAmigo = emprestimoDAO.buscarNomeAmigoPorId(emprestimo.getIdAmigo());
+            } catch (SQLException e) {
+                // Caso ocorra um erro na consulta ao banco, exibe um erro no console
+                e.printStackTrace(); // Exibe o stack trace do erro
+                nomeAmigo = "Erro ao buscar nome"; // Mensagem padrão caso haja erro
+            }
+
+            // Adiciona os dados na tabela
+            modelo.addRow(new Object[]{
+                emprestimo.getIdEmprestimo(),
+                nomeAmigo,
+                emprestimo.qtdFerramentasEmprestimo(emprestimo.getIdEmprestimo()),
+                emprestimo.getCustoTotal(),
+                emprestimo.getDataInicial(),
+                emprestimo.getDataDevolucao(),
+                diasRestantes,
+                situacaoEmprestimo
+            });
+        }
+    }
+    
+    private void procuraAmigoMaisEmprestimo(){
+        ArrayList<Emprestimo> emprestimos = emprestimoDAO.listarEmprestimos();
+        ArrayList<Amigo> amigos = amigoDAO.getMinhaLista();
+        ArrayList<Integer> emprestimoPorAmigo = new ArrayList<>();
+        
+        for(int i = 0; i < amigos.size(); i++){
+            emprestimoPorAmigo.add(0);
+            for(int j = 0; j < emprestimos.size(); j++){
+                if(amigos.get(i).getId() == emprestimos.get(j).getIdAmigo()){
+                    emprestimoPorAmigo.set(i, emprestimoPorAmigo.get(i)+1);
+                }
+            }
+        }
+        
+        int maior = 0;
+        for(int i : emprestimoPorAmigo){
+            if(i > maior){
+                maior = i;
+            }
+        }
+        
+        int index = emprestimoPorAmigo.indexOf(maior);
+        
+        jTFAmigoquemaispegou.setText(amigos.get(index).getNome());
+    }
+    
+    private void nuncaDevolveu(){
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
