@@ -233,4 +233,59 @@ public class EmprestimoDAO {
             return linhasAfetadas > 0; // Retorna true se a atualização foi bem-sucedida
         }
     }
+    
+    public ArrayList<int[]> buscaAmigosMaisEmprestimos(){
+        String sql = "SELECT id_amigo, COUNT(id_amigo) as qtd FROM emprestimos GROUP BY id_amigo ORDER BY COUNT(id_amigo) DESC";
+        ArrayList<int[]> idAmigoEQtd = new ArrayList<>();
+        
+        try(Connection connection = ConexaoDB.getConnection(); Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)){
+            while (resultSet.next()) {
+                int idAmigo = resultSet.getInt("id_amigo");
+                int qtd = resultSet.getInt("qtd");
+                
+                int[] arr = {idAmigo, qtd};
+                
+                idAmigoEQtd.add(arr);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return idAmigoEQtd;
+    }
+    
+    public ArrayList<Integer> buscaEmprestimoNãoDevolvidos(){
+        String sql = "SELECT id_amigo FROM emprestimos WHERE status = 3";
+        ArrayList<Integer> idAmigos = new ArrayList<>();
+        
+        try(Connection connection = ConexaoDB.getConnection(); Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)){
+            while (resultSet.next()) {
+                int idAmigo = resultSet.getInt("id_amigo");
+                idAmigos.add(idAmigo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return idAmigos;
+    }
+    
+    public boolean verificaExisteEmprestimo(int idAmigo){
+        String sql = "SELECT COUNT(id_amigo) as qtd FROM emprestimos WHERE id_amigo = ? GROUP BY id_amigo";
+        int qtd = 0;
+        
+        try(Connection connection = ConexaoDB.getConnection();  PreparedStatement stmt = connection.prepareStatement(sql)){
+            stmt.setInt(1, idAmigo);
+            
+            try ( ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    qtd = rs.getInt("qtd");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return (qtd > 0);
+    }
 }
