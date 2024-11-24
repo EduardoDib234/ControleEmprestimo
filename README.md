@@ -158,13 +158,9 @@ O sistema deve ser capaz de lidar com um aumento gradual no número de ferrament
 
 O sistema deve permitir que os relatórios gerados possam ser exportados e impressos, seja em formato PDF ou outro formato acessível, para facilitar a visualização e o uso físico.
 
- 
 
-  
+## **Informaçoes de acesso**
 
-
-
-    ## **Login do Projeto**
 **Login e senha para acessar o peojeto** 
     Login: root, Senha: Root123
 
