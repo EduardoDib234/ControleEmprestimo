@@ -9,6 +9,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+/**
+ * Classe FerramentaDAO - Gerencia as operações de banco de dados relacionadas à tabela "ferramentas".
+ * Inclui métodos para adicionar, atualizar, deletar e buscar registros, bem como calcular custos.
+ */
 public class FerramentaDAO {
 
     // Lista estática para armazenar objetos do tipo Ferramenta
@@ -18,59 +22,56 @@ public class FerramentaDAO {
 
     // Construtor padrão da classe FerramentaDAO
     public FerramentaDAO() {
-
-    }
-
-    public static FerramentaDAO getInstance() {
-        if (instance == null) {
-            // Se a instância não existir, cria uma nova
-            instance = new FerramentaDAO();
-
-        }
-        return instance;
-
     }
 
     /**
-     * Método para pegar o maior e último ID cadastrado na tabela "ferramentas".
+     * Retorna a instância única da classe FerramentaDAO (Singleton).
      *
-     * @return o maior ID encontrado na tabela ou 0 se não houver registros.
-     * @throws SQLException em caso de erro na consulta SQL.
+     * @return Instância única de FerramentaDAO.
+     */
+    public static FerramentaDAO getInstance() {
+        if (instance == null) {
+            instance = new FerramentaDAO(); // Cria uma nova instância, se ainda não existir.
+        }
+        return instance;
+    }
+
+    /**
+     * Obtém o maior ID cadastrado na tabela "ferramentas".
+     *
+     * @return O maior ID encontrado ou 0 se não houver registros.
+     * @throws SQLException Em caso de erro durante a consulta SQL.
      */
     public int pegaMaiorID() throws SQLException {
-        int maior = 0; // Inicializa o maior ID como 0
+        int maior = 0;
         try {
             Connection conexao = ConexaoDB.getConnection();
             if (conexao != null) {
-                // Cria um Statement para executar a consulta SQL
-                try ( Statement stmt = conexao.createStatement()) {
+                try (Statement stmt = conexao.createStatement()) {
                     ResultSet res = stmt.executeQuery("SELECT MAX(id_ferramenta) AS id_ferramenta FROM ferramentas");
-                    // Verifica se há resultado e armazena o valor do maior ID
                     if (res.next()) {
                         maior = res.getInt("id_ferramenta");
                     }
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(); // Exibe o erro em caso de exceção SQL
+            ex.printStackTrace();
         }
-        return maior; // Retorna o maior ID encontrado
+        return maior;
     }
 
     /**
-     * Método para recuperar todos os registros da tabela "ferramentas" e
-     * atualiza a lista "MinhaLista" com os objetos recuperados.
+     * Recupera todos os registros da tabela "ferramentas" e os armazena na lista "MinhaLista".
      *
-     * @return ArrayList contendo todos os objetos Ferramenta.
+     * @return ArrayList contendo objetos Ferramenta.
      */
     public ArrayList<Ferramenta> getMinhaLista() {
-        MinhaLista.clear(); // Limpa a lista para evitar dados duplicados
+        MinhaLista.clear();
         try {
             Connection conexao = ConexaoDB.getConnection();
             if (conexao != null) {
-                try ( Statement stmt = conexao.createStatement()) {
+                try (Statement stmt = conexao.createStatement()) {
                     ResultSet resposta = stmt.executeQuery("SELECT * FROM ferramentas");
-                    // Itera sobre os resultados e cria objetos Ferramenta
                     while (resposta.next()) {
                         int id = resposta.getInt("id_ferramenta");
                         String nome = resposta.getString("nome_ferramentas");
@@ -78,109 +79,97 @@ public class FerramentaDAO {
                         double custo = resposta.getDouble("custo");
                         int status = resposta.getInt("status");
                         Ferramenta objeto = new Ferramenta(id, nome, marca, custo, status);
-                        MinhaLista.add(objeto); // Adiciona o objeto à lista
+                        MinhaLista.add(objeto);
                     }
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(); // Exibe o erro em caso de exceção SQL
+            ex.printStackTrace();
         }
-        return MinhaLista; // Retorna a lista com todas as ferramentas
+        return MinhaLista;
     }
 
     /**
-     * Método para inserir um novo registro na tabela "ferramentas".
+     * Insere um novo registro na tabela "ferramentas".
      *
-     * @param objeto Objeto Ferramenta a ser inserido no banco.
-     * @return true se a inserção foi bem-sucedida, false caso contrário.
+     * @param objeto Objeto Ferramenta a ser inserido.
+     * @return true se a inserção for bem-sucedida, false caso contrário.
      */
     public boolean inserirFerramentaBD(Ferramenta objeto) {
-        // Adicione o campo "status" e "custo" na consulta
         String sql = "INSERT INTO ferramentas(id_ferramenta,nome_ferramentas,marca,custo, status) VALUES(?,?,?,?,1)";
         try {
             Connection conexao = ConexaoDB.getConnection();
             if (conexao != null) {
-                try ( PreparedStatement stmt = conexao.prepareStatement(sql)) {
-                    // Configure os valores dos placeholders na ordem correta
+                try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
                     stmt.setInt(1, objeto.getId());
                     stmt.setString(2, objeto.getNome());
                     stmt.setString(3, objeto.getMarca());
                     stmt.setDouble(4, objeto.getCusto());
-
-                    stmt.execute(); // Executa o comando de inserção
+                    stmt.execute();
                 }
-                return true; // Retorna true se a inserção foi bem-sucedida
+                return true;
             }
         } catch (SQLException erro) {
-            throw new RuntimeException(erro); // Lança exceção em caso de erro
+            throw new RuntimeException(erro);
         }
-        return false; // Retorna false se a inserção falhou
+        return false;
     }
 
     /**
-     * Método para deletar um registro específico da tabela "ferramentas".
+     * Deleta um registro específico da tabela "ferramentas".
      *
-     * @param id ID da ferramenta a ser deletada.
-     * @return true se a exclusão foi bem-sucedida, false caso contrário.
+     * @param id ID do registro a ser deletado.
+     * @return true se a exclusão for bem-sucedida, false caso contrário.
      */
     public boolean deletaFerramentaBD(int id) {
         String sql = "DELETE FROM ferramentas WHERE id_ferramenta = ?";
-        try ( Connection conexao = ConexaoDB.getConnection();  PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, id); // Configura o parâmetro do ID
-            int linhasAfetadas = stmt.executeUpdate(); // Executa o comando de deleção
-
-            // Retorna true se ao menos uma linha foi deletada
+        try (Connection conexao = ConexaoDB.getConnection(); PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            int linhasAfetadas = stmt.executeUpdate();
             return linhasAfetadas > 0;
         } catch (SQLException erro) {
             System.err.println("Erro ao deletar ferramenta: " + erro.getMessage());
         }
-        return false; // Retorna false em caso de falha
+        return false;
     }
 
     /**
-     * Método para atualizar os dados de um registro existente na tabela
-     * "ferramentas".
+     * Atualiza os dados de um registro específico na tabela "ferramentas".
      *
-     * @param objeto Objeto Ferramenta contendo os dados atualizados.
-     * @return true se a atualização foi bem-sucedida, false caso contrário.
+     * @param objeto Objeto Ferramenta com os novos dados.
+     * @return true se a atualização for bem-sucedida, false caso contrário.
      */
     public boolean atualizarFerramenta(Ferramenta objeto) {
         String sql = "UPDATE ferramentas SET nome_ferramentas = ?, marca = ?, custo = ?, status = ? WHERE id_ferramenta = ?";
-        try ( Connection conexao = ConexaoDB.getConnection();  PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            // Configura os parâmetros para a consulta
+        try (Connection conexao = ConexaoDB.getConnection(); PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setString(1, objeto.getNome());
             stmt.setString(2, objeto.getMarca());
             stmt.setDouble(3, objeto.getCusto());
             stmt.setInt(4, objeto.getStatus());
             stmt.setInt(5, objeto.getId());
-
-            // Executa a atualização e verifica se houve alteração
             int linhasAfetadas = stmt.executeUpdate();
-            return linhasAfetadas > 0; // Retorna true se alguma linha foi atualizada
+            return linhasAfetadas > 0;
         } catch (SQLException erro) {
             System.err.println("Erro ao atualizar ferramenta: " + erro.getMessage());
-            return false; // Retorna false se ocorrer um erro
+            return false;
         }
     }
 
     /**
-     * Método para carregar os dados de uma ferramenta específica a partir do
-     * ID.
+     * Carrega os dados de uma ferramenta específica com base no ID.
      *
      * @param id ID da ferramenta a ser carregada.
-     * @return Objeto Ferramenta com os dados carregados do banco.
+     * @return Objeto Ferramenta com os dados encontrados.
      */
     public Ferramenta carregaFerramenta(int id) {
-        Ferramenta objeto = new Ferramenta(); // Cria um objeto Ferramenta vazio
-        objeto.setId(id); // Define o ID no objeto
-        try ( Connection conexao = ConexaoDB.getConnection()) {
+        Ferramenta objeto = new Ferramenta();
+        objeto.setId(id);
+        try (Connection conexao = ConexaoDB.getConnection()) {
             if (conexao != null) {
                 String sql = "SELECT * FROM ferramentas WHERE id_ferramenta = ?";
-                try ( PreparedStatement stmt = conexao.prepareStatement(sql)) {
-                    stmt.setInt(1, id); // Define o parâmetro de ID
-                    ResultSet resposta = stmt.executeQuery(); // Executa a consulta
-
-                    // Se encontrar a ferramenta no banco de dados, popula o objeto
+                try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+                    stmt.setInt(1, id);
+                    ResultSet resposta = stmt.executeQuery();
                     if (resposta.next()) {
                         objeto.setNome(resposta.getString("nome_ferramentas"));
                         objeto.setMarca(resposta.getString("marca"));
@@ -190,64 +179,68 @@ public class FerramentaDAO {
                 }
             }
         } catch (SQLException erro) {
-            System.err.println("Erro ao carregar ferramenta: " + erro.getMessage()); // Exibe o erro
-            throw new RuntimeException(erro); // Lança a exceção para o método chamar o erro
+            System.err.println("Erro ao carregar ferramenta: " + erro.getMessage());
+            throw new RuntimeException(erro);
         }
-        return objeto; // Retorna o objeto Ferramenta com os dados carregados
+        return objeto;
     }
 
+    /**
+     * Atualiza o status de uma ferramenta específica com base no ID.
+     *
+     * @param idFerramenta ID da ferramenta a ser atualizada.
+     * @param status Novo status a ser aplicado.
+     * @return true se a atualização for bem-sucedida.
+     * @throws SQLException Em caso de erro SQL.
+     */
     public boolean atualizarStatusFerramenta(int idFerramenta, int status) throws SQLException {
         String sql = "UPDATE ferramentas SET status = ? WHERE id_ferramenta = ?";
-        try ( Connection conexao = ConexaoDB.getConnection()) {
-
-            try ( PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (Connection conexao = ConexaoDB.getConnection()) {
+            try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
                 stmt.setInt(1, status);
                 stmt.setInt(2, idFerramenta);
-
                 int linhasAfetadas = stmt.executeUpdate();
-                return linhasAfetadas > 0; // Retorna true se a atualização foi bem-sucedida
+                return linhasAfetadas > 0;
             }
         }
     }
 
+    /**
+     * Busca os IDs das ferramentas associadas a um empréstimo específico.
+     *
+     * @param idEmprestimo ID do empréstimo.
+     * @return Lista de IDs das ferramentas associadas.
+     * @throws SQLException Em caso de erro SQL.
+     */
     public ArrayList<Integer> buscarFerramentasPorEmprestimo(int idEmprestimo) throws SQLException {
-        // Lista para armazenar os IDs das ferramentas associadas ao empréstimo
         ArrayList<Integer> ferramentas = new ArrayList<>();
-
-        // Consulta SQL para buscar todas as ferramentas associadas ao empréstimo
         String sql = "SELECT id_ferramenta FROM ferramentas_emprestadas WHERE id_emprestimo = ?";
-
-        // Tentativa de obter a conexão e executar a consulta
-        try ( Connection conexao = ConexaoDB.getConnection(); // Abre a conexão com o banco
-                  PreparedStatement stmt = conexao.prepareStatement(sql)) { // Prepara a consulta
-
-            stmt.setInt(1, idEmprestimo); // Passa o id do empréstimo como parâmetro na consulta
-
-            try ( ResultSet rs = stmt.executeQuery()) { // Executa a consulta e obtém o resultado
-                // Itera sobre o conjunto de resultados (ResultSet)
+        try (Connection conexao = ConexaoDB.getConnection(); PreparedStatement stmt = conexao.prepareStatement(sql)) {
+            stmt.setInt(1, idEmprestimo);
+            try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    // Adiciona cada id de ferramenta encontrado à lista
                     ferramentas.add(rs.getInt("id_ferramenta"));
                 }
             }
         }
-
-        // Retorna a lista com os IDs das ferramentas
         return ferramentas;
     }
-    
-    public double custoTotal(){
+
+    /**
+     * Calcula o custo total de todas as ferramentas cadastradas.
+     *
+     * @return Valor total do custo das ferramentas.
+     */
+    public double custoTotal() {
         String sql = "SELECT sum(custo) as custo_total FROM ferramentas";
         double custoTotal = 0;
-        
-        try(Connection connection = ConexaoDB.getConnection(); Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)){
-            while(resultSet.next()){
+        try (Connection connection = ConexaoDB.getConnection(); Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
                 custoTotal = resultSet.getDouble("custo_total");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
         return custoTotal;
     }
 }

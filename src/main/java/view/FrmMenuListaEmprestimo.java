@@ -366,7 +366,7 @@ if (selectedRow != -1) { // Verifica se alguma linha foi selecionada
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jBExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBExcluirActionPerformed
-        // TODO add your handling code here:
+      
     }//GEN-LAST:event_jBExcluirActionPerformed
 
     public static void main(String args[]) {
