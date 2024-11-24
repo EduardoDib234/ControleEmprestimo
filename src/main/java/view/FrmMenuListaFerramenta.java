@@ -40,6 +40,7 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
         jBCancelar = new javax.swing.JButton();
         jBRemover = new javax.swing.JButton();
         jBReparo = new javax.swing.JButton();
+        jBDisponibilizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lista de Ferramentas");
@@ -56,12 +57,12 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
             }
         ));
         jTFerramentas.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jTFerramentasAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jTFerramentas.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -134,6 +135,13 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
             }
         });
 
+        jBDisponibilizar.setText("Disponibilizar");
+        jBDisponibilizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBDisponibilizarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -165,7 +173,7 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
                                             .addComponent(jTStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(142, 142, 142)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
@@ -175,6 +183,8 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
                                 .addComponent(jBRemover)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBAtualizar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jBDisponibilizar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jBReparo)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
@@ -220,8 +230,9 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
                             .addComponent(jBAtualizar)
                             .addComponent(jBCancelar)
                             .addComponent(jBRemover)
+                            .addComponent(jBDisponibilizar)
                             .addComponent(jBReparo))
-                        .addGap(0, 14, Short.MAX_VALUE))))
+                        .addGap(0, 11, Short.MAX_VALUE))))
         );
 
         pack();
@@ -373,8 +384,95 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
     }//GEN-LAST:event_jTFerramentasAncestorAdded
 
     private void jBReparoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBReparoActionPerformed
-        
+        try {
+            // Obtém e valida os dados dos campos de texto
+            int id = Integer.parseInt(this.jTId.getText().trim());
+            String nome = this.jTNome.getText().trim();
+            String marca = this.jTMarca.getText().trim();
+            double custo = Double.parseDouble(this.jTCusto.getText().trim());
+            int status = 2;
+
+
+            // Validações básicas
+            if (nome.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "O campo Nome não pode estar vazio!");
+                return;
+            }
+            if (marca.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "O campo Marca não pode estar vazio!");
+                return;
+            }
+            if (custo <= 0) {
+                JOptionPane.showMessageDialog(rootPane, "O custo deve ser maior que zero!");
+                return;
+            }
+
+            // Cria o objeto Ferramenta com os dados validados
+            Ferramenta ferramentaAtualizado = new Ferramenta(id, nome, marca, custo, status);
+            if (this.ferramentaDAO.atualizarFerramenta(ferramentaAtualizado)) {
+               // Exibe mensagem de sucesso
+                JOptionPane.showMessageDialog(rootPane, "Ferramenta em reparo!");
+            } else {
+                // Exibe mensagem de erro caso a atualização falhe
+                JOptionPane.showMessageDialog(rootPane, "Falha ao mudar status da ferramenta. Verifique os dados e tente novamente.");
+            }
+        } catch (NumberFormatException e) {
+            // Tratamento para erros de conversão de número
+            JOptionPane.showMessageDialog(rootPane, "Erro ao converter um dos valores numéricos. Verifique os campos ID e Custo!");
+        } catch (Exception e) {
+            // Tratamento para outros erros gerais
+            JOptionPane.showMessageDialog(rootPane, "Erro inesperado: " + e.getMessage());
+        }
+        carregaTabela();
     }//GEN-LAST:event_jBReparoActionPerformed
+
+    private void jBDisponibilizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBDisponibilizarActionPerformed
+        try {
+            // Obtém e valida os dados dos campos de texto
+            int id = Integer.parseInt(this.jTId.getText().trim());
+            String nome = this.jTNome.getText().trim();
+            String marca = this.jTMarca.getText().trim();
+            double custo = Double.parseDouble(this.jTCusto.getText().trim());
+            int status;
+
+
+            // Validações básicas
+            if (nome.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "O campo Nome não pode estar vazio!");
+                return;
+            }
+            if (marca.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "O campo Marca não pode estar vazio!");
+                return;
+            }
+            if (custo <= 0) {
+                JOptionPane.showMessageDialog(rootPane, "O custo deve ser maior que zero!");
+                return;
+            }
+            if (this.jTStatus.getText().equals("Reparo") || this.jTStatus.getText().equals("Disponível")) {
+                status = 1;
+            }else{
+                status = 0;
+            }
+
+            // Cria o objeto Ferramenta com os dados validados
+            Ferramenta ferramentaAtualizado = new Ferramenta(id, nome, marca, custo, status);
+            if (this.ferramentaDAO.atualizarFerramenta(ferramentaAtualizado)) {
+                // Exibe mensagem de sucesso
+                JOptionPane.showMessageDialog(rootPane, "Ferramenta disponibilizada!");
+            } else {
+                // Exibe mensagem de erro caso a atualização falhe
+                JOptionPane.showMessageDialog(rootPane, "Falha ao disponibilizar a ferramenta. Verifique os dados e tente novamente.");
+            }
+        } catch (NumberFormatException e) {
+            // Tratamento para erros de conversão de número
+            JOptionPane.showMessageDialog(rootPane, "Erro ao converter um dos valores numéricos. Verifique os campos ID e Custo!");
+        } catch (Exception e) {
+            // Tratamento para outros erros gerais
+            JOptionPane.showMessageDialog(rootPane, "Erro inesperado: " + e.getMessage());
+        }
+        carregaTabela();
+    }//GEN-LAST:event_jBDisponibilizarActionPerformed
     public void carregaTabela() {
         DefaultTableModel modelo = (DefaultTableModel) this.jTFerramentas.getModel();
         modelo.setNumRows(0);  // Limpa a tabela antes de recarregar
@@ -394,8 +492,7 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
                 change = "Indisponível";
             } else { 
                 change = "Reparo";
-
-                    }
+            }
             modelo.addRow(new Object[]{                
                 a.getId(),
                 a.getNome(),
@@ -417,6 +514,7 @@ public class FrmMenuListaFerramenta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBAtualizar;
     private javax.swing.JButton jBCancelar;
+    private javax.swing.JButton jBDisponibilizar;
     private javax.swing.JButton jBRemover;
     private javax.swing.JButton jBReparo;
     private javax.swing.JLabel jLabel1;
