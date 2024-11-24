@@ -85,7 +85,7 @@
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <Component id="jCBScore" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="82" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jBAdicionar" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="jBCancelar" min="-2" pref="36" max="-2" attributes="0"/>
