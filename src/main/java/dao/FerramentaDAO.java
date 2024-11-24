@@ -235,4 +235,19 @@ public class FerramentaDAO {
         // Retorna a lista com os IDs das ferramentas
         return ferramentas;
     }
+    
+    public double custoTotal(){
+        String sql = "SELECT sum(custo) as custo_total FROM ferramentas";
+        double custoTotal = 0;
+        
+        try(Connection connection = ConexaoDB.getConnection(); Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)){
+            while(resultSet.next()){
+                custoTotal = resultSet.getDouble("custo_total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return custoTotal;
+    }
 }
