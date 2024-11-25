@@ -171,11 +171,11 @@ O sistema deve permitir que os relatórios gerados possam ser exportados e impre
 ## **Informaçoes de para iniciar o projeto**
 OBS: Para rodar o projeto em seu computador voce deve utilizar o **Netbeans 13**, **Java 8 (jdk1.8.0_202)** e **MySQL Workbench 8.0 CE** 
 
-**1-** Clone nosso repositorio para seu computador  https://github.com/EduardoDib234/ControleEmprestimo
+**1-** Clone nosso repositorio para seu computador https://github.com/EduardoDib234/ControleEmprestimo
 
 **2-** Crie uma database bd_controle_emprestimo e rode o script que esta dentro do arquivo **banco.sql** presente em nosso projeto.
 
-**3-** Configure as credenciais de acesso ao bando de dados dentro do arquivo **ConexaoDB.java**.
+**3-** Configure as credenciais de acesso ao bando de dados dentro do arquivo <a href="https://github.com/EduardoDib234/ControleEmprestimo/blob/main/src/main/java/dao/ConexaoDB.java" title="Professor">**ConexaoDB.java**.</a></td>.
     
     private static final String URL = "jdbc:mysql://localhost:3306/bd_controle_emprestimo"; - URL
     private static final String USER = "root" - USUARIO
