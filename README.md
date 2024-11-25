@@ -1,3 +1,12 @@
+# **Contributors**
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/C0mrad078"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/83824100?s=400&u=7f5c436390ecd65be4dbcf35370fc75f26ae0317&v=4" width="100px;" alt=""/><br /><sub><b>Jhonatan Matos Schmitt</b></sub></a><br /><a href="https://github.com/C0mrad078" title="Jhonatan Matos Schmitt"></a></td>
+    <td align="center"><a href="https://github.com/kamillyengenharia"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/183877240?v=4" width="100px;" alt=""/><br /><sub><b>kamilly pereira de castro</b></sub></a><br /><a href="https://github.com/kamillyengenharia" title="kamillyengenharia"></a></td>
+    <td align="center"><a href="https://github.com/EduardoDib234"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/181168983?v=4" width="100px;" alt=""/><br /><sub><b>Eduardo Henrique Dib Barbosa Anton</b></sub></a><br /><a href="https://github.com/EduardoDib234" title="Eduardo Dibre"></a></td>
+  
+</table>
+
 # **ControleEmprestimo**
 
 Sistema de gerenciamento de empréstimo de ferramentas
@@ -168,12 +177,20 @@ O sistema deve ser capaz de lidar com um aumento gradual no número de ferrament
 O sistema deve permitir que os relatórios gerados possam ser exportados e impressos, seja em formato PDF ou outro formato acessível, para facilitar a visualização e o uso físico.
 
 
-## **Informaçoes de acesso**
+## **Informaçoes de para iniciar o projeto**
+OBS: Para rodar o projeto em seu computador voce deve utilizar o **Netbeans 13**, **Java 8 (jdk1.8.0_202)** e **MySQL Workbench 8.0 CE** 
 
-**Login e senha para acessar o peojeto** 
-    Login: root, Senha: Root123
+**1-** Clone nosso repositorio para seu computador  https://github.com/EduardoDib234/ControleEmprestimo
 
-**Login e senha para acessar o banco de dados**
-     Login: root   /   senha: 3.iiy:kX36eu
+**2-** Crie uma database bd_controle_emprestimo e rode o script que esta dentro do arquivo **banco.sql** presente em nosso projeto.
+
+**3-** Configure as credenciais de acesso ao bando de dados dentro do arquivo **ConexaoDB.java**.
+"jdbc:mysql://localhost:3306/bd_controle_emprestimo"
+
+private static final String USER = "root"
+
+PASSWORD = "3.iiy:kX36eu"
+
+
 
 
