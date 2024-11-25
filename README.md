@@ -28,25 +28,30 @@ Esse sistema busca simplificar o registro e controle de ferramentas, oferecendo 
     - **Nome**
     - **Marca**
     - **Custo de Aquisição**
+    - **Status** (Disponivel, Indisponivel e Reparo)
 
 - **Cadastro de Amigos**
   - Armazena informações de amigos que podem solicitar ferramentas, incluindo:
     - **Nome**
     - **Telefone**
+    - **Score**
 
 - **Empréstimo de Ferramentas**
   - Permite o registro de empréstimos com:
-    - **Amigo** (empréstimo para um ou mais amigos)
+    - **ID do emprestimo**
+    - **ID do Amigo**
+    - **ID da Ferramenta**
     - **Data de Empréstimo**
-    - **Data de Devolução** (quando a ferramenta é devolvida)
+    - **Data de Devolução**
+    - **Status** (Em Aberto, Inativo e atrasado)
 
 - **Relatórios**
-  - **Ferramentas e Custos**: Exibe todas as ferramentas cadastradas e o valor total gasto.
+  - **Ferramentas e Custos**: Exibe todas as ferramentas cadastradas separando elas pelo status e o valor total gasto.
   - **Empréstimos Ativos**: Mostra uma lista de ferramentas atualmente emprestadas que ainda não foram devolvidas.
   - **Histórico de Empréstimos**: Relatório de todos os empréstimos realizados, com informações sobre:
     - Amigos que já emprestaram ferramentas
     - Quem possui itens não devolvidos
-    - Quem realizou mais empréstimos
+    - Rank de quem realizou mais empréstimos
 
 - **Avisos sobre Empréstimos Pendentes**
   - Ao registrar um novo empréstimo, o sistema alerta se o amigo ainda possui alguma ferramenta não devolvida, garantindo controle sobre itens ainda em circulação.
@@ -66,6 +71,7 @@ Esse sistema busca simplificar o registro e controle de ferramentas, oferecendo 
 
 - **Linguagem de Programação**: Java
 - **Ambiente**: Netbeans (desktop)
+- **Banco de dados**: Mysql
 
 ---
 ## **Requisitos**
@@ -80,6 +86,7 @@ O software deve permitir o cadastro de ferramentas com as seguintes informaçõe
 Nome da ferramenta.
 Marca da ferramenta.
 Custo de aquisição da ferramenta.
+Status da ferramenta.
 
 - **Cadastro de Amigos**:
 
@@ -87,6 +94,7 @@ O sistema deve permitir o cadastro de amigos com as seguintes informações:
 
 Nome do amigo.
 Telefone do amigo.
+Score do amigo.
 
 - **Registro de Empréstimos**:
 
@@ -96,6 +104,7 @@ Ferramentas emprestadas (pode ser uma ou mais).
 Amigo que está recebendo a ferramenta.
 Data do empréstimo.
 Data de devolução prevista.
+Status do emprestimo.
 O sistema deve verificar, no momento do empréstimo, se o amigo já tem ferramentas não devolvidas. Caso tenha, o sistema deve avisar o usuário.
 
 - **Relatórios**:
