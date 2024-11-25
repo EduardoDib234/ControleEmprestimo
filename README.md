@@ -1,12 +1,3 @@
-# **Contributors**
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/C0mrad078"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/83824100?s=400&u=7f5c436390ecd65be4dbcf35370fc75f26ae0317&v=4" width="100px;" alt=""/><br /><sub><b>Jhonatan Matos Schmitt</b></sub></a><br /><a href="https://github.com/C0mrad078" title="Jhonatan Matos Schmitt"></a></td>
-    <td align="center"><a href="https://github.com/kamillyengenharia"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/183877240?v=4" width="100px;" alt=""/><br /><sub><b>kamilly pereira de castro</b></sub></a><br /><a href="https://github.com/kamillyengenharia" title="kamillyengenharia"></a></td>
-    <td align="center"><a href="https://github.com/EduardoDib234"><img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/181168983?v=4" width="100px;" alt=""/><br /><sub><b>Eduardo Henrique Dib Barbosa Anton</b></sub></a><br /><a href="https://github.com/EduardoDib234" title="Eduardo Dibre"></a></td>
-  
-</table>
-
 # **ControleEmprestimo**
 
 Sistema de gerenciamento de empréstimo de ferramentas
@@ -185,11 +176,15 @@ OBS: Para rodar o projeto em seu computador voce deve utilizar o **Netbeans 13**
 **2-** Crie uma database bd_controle_emprestimo e rode o script que esta dentro do arquivo **banco.sql** presente em nosso projeto.
 
 **3-** Configure as credenciais de acesso ao bando de dados dentro do arquivo **ConexaoDB.java**.
-"jdbc:mysql://localhost:3306/bd_controle_emprestimo"
+    
+    private static final String URL = "jdbc:mysql://localhost:3306/bd_controle_emprestimo"; - URL
+    private static final String USER = "root" - USUARIO
+    private static final String PASSWORD = "3.iiy:kX36eu"; - SENHA
 
-private static final String USER = "root"
+**4-** Para acessar o software use as informaçoes de login fornecidas abaixo:
 
-PASSWORD = "3.iiy:kX36eu"
+    Login: root  
+    Senha: Root123
 
 
 
