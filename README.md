@@ -11,7 +11,7 @@ Sistema de gerenciamento de empréstimo de ferramentas
 ## **Professores**
 
 - <a href="https://github.com/osmarbraz" title="Professor">Osmar de Oliveira Braz Junior</a></td>
-- <a href="https://github.com/josepedro1903" title="Professor">José Padilha Chrispim Neto</a></td>
+- <a href="https://github.com/chrispimjose" title="Professor">José Padilha Chrispim Neto</a></td>
 
 ---
 
