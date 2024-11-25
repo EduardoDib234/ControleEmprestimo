@@ -164,8 +164,7 @@ O sistema deve permitir que os relatórios gerados possam ser exportados e impre
 **Login e senha para acessar o peojeto** 
     Login: root, Senha: Root123
 
-
-- **Login e senha para acessar o banco de dados**
+**Login e senha para acessar o banco de dados**
      Login: root   /   senha: 3.iiy:kX36eu
 
 
