@@ -32,6 +32,7 @@ public class FrmMenuCadastrarAmigo extends javax.swing.JFrame {
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cadastro de amigo");
 
         jLabel1.setText("Cadastrar Amigos:");
 

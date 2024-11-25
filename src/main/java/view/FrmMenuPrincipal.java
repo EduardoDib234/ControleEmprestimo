@@ -24,7 +24,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Menu ");
+        setTitle("Menu Principal");
 
         jMenu1.setText("Ferramenta");
 

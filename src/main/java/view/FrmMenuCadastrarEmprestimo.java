@@ -64,6 +64,7 @@ public class FrmMenuCadastrarEmprestimo extends javax.swing.JFrame {
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Cadastro de emprestimo");
 
         jTCustoTotal.setEditable(false);
         jTCustoTotal.addActionListener(new java.awt.event.ActionListener() {
@@ -129,12 +130,12 @@ public class FrmMenuCadastrarEmprestimo extends javax.swing.JFrame {
             }
         ));
         jTAmigos.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jTAmigosAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jTAmigos.addMouseListener(new java.awt.event.MouseAdapter() {

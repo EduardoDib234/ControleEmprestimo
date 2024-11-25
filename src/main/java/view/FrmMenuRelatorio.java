@@ -79,6 +79,7 @@ public class FrmMenuRelatorio extends javax.swing.JFrame {
         jTemprestimo = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Relatorio");
 
         jLabel3.setText("Ferramentas:");
 
