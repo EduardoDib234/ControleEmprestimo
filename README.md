@@ -4,14 +4,14 @@ Sistema de gerenciamento de empréstimo de ferramentas
 
 ## **Integrantes**
 
-- **Jhonatan Matos Schmitt** (nome presente nos commits: C0mrad078 e Jhonatan) - RA: 162210582
-- **Kamily Pereira de Castro** - RA: 162211995
-- **Eduardo Henrique Dib Barbosa Anton** - RA: 1624239244
+- <a href="https://github.com/C0mrad078" title="integrante">**Jhonatan Matos Schmitt**</a></td> (nome presente nos commits: C0mrad078 e Jhonatan) - RA: 162210582
+- <a href="https://github.com/kamillyengenharia" title="integrante">**Kamily Pereira de Castro**</a></td> - RA: 162211995
+- <a href="https://github.com/EduardoDib234" title="integrante">**Eduardo Henrique Dib Barbosa Anton**</a></td> - RA: 1624239244
 
 ## **Professores**
 
-- Osmar de Oliveira Braz Junior
-- José Padilha Chrispim Neto
+- <a href="https://github.com/osmarbraz" title="Professor">Osmar de Oliveira Braz Junior</a></td>
+- <a href="https://github.com/josepedro1903" title="Professor">José Padilha Chrispim Neto</a></td>
 
 ---
 
