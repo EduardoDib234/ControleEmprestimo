@@ -1,5 +1,5 @@
 package view;
-
+import dao.EmprestimoDAO;
 public class FrmMenuPrincipal extends javax.swing.JFrame {
 
     public FrmMenuPrincipal() {
@@ -160,9 +160,16 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        FrmMenuListaEmprestimo objeto = new FrmMenuListaEmprestimo();
-        objeto.setVisible(true);
-        this.dispose();
+    // Instancia EmprestimoDAO e chama o método para atualizar os empréstimos atrasados
+    EmprestimoDAO emprestimoDAO = new EmprestimoDAO();
+    emprestimoDAO.atualizarEmprestimosAtrasados();
+
+    // Abre a nova tela FrmMenuListaEmprestimo
+    FrmMenuListaEmprestimo objeto = new FrmMenuListaEmprestimo();
+    objeto.setVisible(true);
+    
+    // Fecha a janela atual
+    this.dispose();
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenu5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu5ActionPerformed

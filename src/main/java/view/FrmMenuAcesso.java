@@ -101,7 +101,7 @@ public class FrmMenuAcesso extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTLoginActionPerformed
-        
+
     }//GEN-LAST:event_jTLoginActionPerformed
 
     private void jBCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCancelarActionPerformed
@@ -112,7 +112,7 @@ public class FrmMenuAcesso extends javax.swing.JFrame {
         // Obtém os valores inseridos nos campos de login e senha
         String login = this.jTLogin.getText();
         char[] senha = this.jPSenha.getPassword();  // Captura a senha digitada como um array de caracteres
-        
+
         // Converte o array de caracteres para uma string para comparação
         String senhaStr = new String(senha);
 
@@ -128,8 +128,17 @@ public class FrmMenuAcesso extends javax.swing.JFrame {
             // Caso o login ou a senha estejam incorretos, exibe um aviso
             JOptionPane.showMessageDialog(null, "Login ou senha incorretos. Tente novamente.");
         }
+    }
+
+// Método para associar o ActionListener ao botão de login
+    private void adicionarActionListenerAoBotaoLogin() {
+        jBEntrar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEntrar1ActionPerformed(evt);
+            }
+        });
     }//GEN-LAST:event_jBEntrar1ActionPerformed
-public static void main(String args[]) {
+    public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new FrmMenuAcesso().setVisible(true);
