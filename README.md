@@ -94,7 +94,7 @@ RF008 Listar os amigos com empréstimos em dia;
 
 RF009 Listar os amigos com empréstimos atrasados;
 
-RF010 Listar os amigos com empréstimos com score baixo, médio e alto;
+RF010 Listar os amigos com score baixo, médio e alto;
 
 RF011 Listar os empréstimos em dia;
 
@@ -108,7 +108,7 @@ RF015 Listar os amigos que mais pegaram empréstimos;
 
 RF016 Listar todos os empréstimos;
 
-RF017 Listar os empréstimos disponíveis, indisponíveis e ferramentas em manutenção.
+RF017 Listar os ferramenta disponíveis, indisponíveis e ferramentas em manutenção.
 
 
 - **Requisitos não funcionais**:
@@ -125,9 +125,9 @@ RNF005 É necessário um computador com ambiente gráfico para rodar o programa;
 
 RNF006 O programa deve responder em tempo real todas as iterações do usuário;
 
-RNF008 Os dados são armazenados no banco de dados seguro;
+RNF007 Os dados são armazenados no banco de dados seguro;
 
-RNF009 Eventuais manutenções e ampliações do software não fazem parte do escopo inicial devendo serem solicitadas aos desenvolvedores em outros momentos.
+RNF008 Eventuais manutenções e ampliações do software não fazem parte do escopo inicial devendo serem solicitadas aos desenvolvedores em outros momentos.
 
 
 ## **Informações de para iniciar o projeto**
